@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Message board for nOS and nitrOS products</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Raleway"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="../css/style.min.css" />
+  </head>
+
+  <body class="landing">
+    <nav class="navbar bg-dark">
+      <h1>
+        <a href="index.html">
+          <i class="fa fa-code"></i>
+          nitrOS-T
+        </a>
+      </h1>
+      <div class="dropdown">
+        <h1>
+          <a href="">
+            About
+          </a>
+        </h1>
+        <div class="dropdown-content">
+          <a href="aboutMe.html"><i class="material-icons">person</i> Me</a>
+          <a href="aboutnitrOS-T.html"
+            ><i class="material-icons">memory</i> nitrOS-T</a
+          >
+        </div>
+      </div>
+    </nav>
+    <section class="container">
+      <!-- Alerts -->
+      <div id="alertCredentials" class="alert alert-danger">
+        Invalid credentials
+      </div>
+      <div id="alertUsername" class="alert alert-danger">
+        Account not found
+      </div>
+      <div id="alertPassword" class="alert alert-danger">
+        Wrong password
+      </div>
+      <div class="box">
+        <h2>Login</h2>
+        <form>
+          <div class="inputBox">
+            <input id="email" type="text" name="" required="" />
+            <label>Email address</label>
+          </div>
+          <div class="inputBox">
+            <input id="password" type="password" name="" required="" />
+            <label>Password</label>
+          </div>
+          <a id="btnLogin" class="btn btn-primary">Submit</a>
+          <p>Don't have an account? <a href="signup.html">Signup</a></p>
+        </form>
+      </div>
+    </section>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/bcryptjs@2.4.3/dist/bcrypt.min.js"></script>
+  <script type="text/javascript" src="../js/login.js"></script>
+</html>

@@ -1,0 +1,426 @@
+@import "config";
+@import "utility";
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Raleway", sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  background-color: #ffffff;
+  color: #333333;
+  height: 100vh;
+}
+
+a {
+  text-decoration: none;
+  color: $primary-color;
+}
+
+ul {
+  list-style: none;
+}
+
+// Navbar
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.7rem 2rem;
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  top: 0;
+  border-bottom: solid 1px $primary-color;
+  opacity: 0.9;
+
+  ul {
+    display: flex;
+  }
+
+  a {
+    color: white;
+    padding: 0.45rem;
+    margin: 0 0.25rem;
+  }
+
+  a:hover {
+    color: $primary-color;
+  }
+}
+
+// Dropdown menu in the navbar
+.dropdown {
+  position: relative;
+  display: inline-block;
+
+  &-content {
+    display: none;
+    position: absolute;
+    background-color: #333333;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+
+    a {
+      color: white;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      font-weight: 700;
+
+      &:hover {
+        background-color: #838383;
+      }
+    }
+  }
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+// Landing
+.landing {
+  position: relative;
+  background: url("../../public/wallpaper.jpg") no-repeat center center/cover;
+  height: 100vh;
+  background-attachment: fixed;
+
+  &-inner {
+    color: white;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+// Forms
+.messageBox {
+  position: relative;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -0%);
+  width: 95%;
+  padding: 40px;
+  margin-bottom: 8%;
+  background: rgba(0, 0, 0, 0.8);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 1.25);
+  border-radius: 10px;
+
+  h2 {
+    margin: 0 0 30px;
+    padding: 0;
+    color: $primary-color;
+    text-align: center;
+  }
+
+  input[type="submit"] {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: $light-color;
+    background-color: $primary-color;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  .inputBox {
+    position: relative;
+
+    textarea {
+      width: 100%;
+      padding: 10px 0;
+      font-size: 16px;
+      color: $light-color;
+      letter-spacing: 1px;
+      margin-bottom: 30px;
+      border: none;
+      border-bottom: solid 1px $light-color;
+      outline: none;
+      background: transparent;
+    }
+
+    label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 10px 0;
+      font-size: 16px;
+      color: $light-color;
+      pointer-events: none;
+      transition: 0.5s;
+    }
+
+    textarea:hover ~ label,
+    textarea:valid ~ label {
+      top: -20px;
+      left: 0;
+      color: $primary-color;
+      font-size: 12px;
+    }
+  }
+}
+
+.box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  padding: 40px;
+  background: rgba(0, 0, 0, 0.8);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 1.25);
+  border-radius: 10px;
+
+  h2 {
+    margin: 0 0 30px;
+    padding: 0;
+    color: $primary-color;
+    text-align: center;
+    // text-decoration: underline;
+    border-bottom: 6px solid $primary-color;
+  }
+
+  input[type="submit"] {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: $light-color;
+    background-color: $primary-color;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  p {
+    padding-top: 1rem;
+    color: $light-color;
+  }
+
+  .inputBox {
+    position: relative;
+
+    input {
+      width: 100%;
+      padding: 10px 0;
+      font-size: 16px;
+      color: $light-color;
+      letter-spacing: 1px;
+      margin-bottom: 30px;
+      border: none;
+      border-bottom: solid 1px $light-color;
+      outline: none;
+      background: transparent;
+    }
+
+    label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 10px 0;
+      font-size: 16px;
+      color: $light-color;
+      pointer-events: none;
+      transition: 0.5s;
+    }
+
+    input:hover ~ label,
+    input:valid ~ label {
+      top: -20px;
+      left: 0;
+      color: $primary-color;
+      font-size: 12px;
+    }
+  }
+}
+
+// Message boxes
+.containerMessage {
+  position: static;
+  justify-content: center;
+  align-items: center;
+
+  .boxMessage {
+    position: relative;
+    height: 14rem;
+    background: black;
+    display: flex;
+    border: 1px solid #000000;
+    margin-bottom: 2rem;
+
+    .contentMessage {
+      position: relative;
+      padding: 20px;
+      transform: translateY(40px);
+
+      h2 {
+        position: absolute;
+        top: -40px;
+        font-size: 10em;
+        color: rgba(255, 255, 255, 0.1);
+        transition: 0.5s;
+
+        span {
+          display: inline-block;
+          overflow: hidden;
+          width: 60vw;
+        }
+      }
+
+      h3 {
+        margin: 0 0 10px;
+        padding: 0;
+        font-size: 24px;
+        font-weight: 500;
+        color: $light-color;
+      }
+
+      p {
+        margin: 0;
+        padding: 0;
+        color: $light-color;
+        font-size: 16px;
+      }
+
+      a {
+        position: relative;
+        margin: 20px 0 0;
+        padding: 10px 20px;
+        text-decoration: none;
+        border: 1px solid $light-color;
+        display: inline-block;
+        color: $light-color;
+        transition: 0.5s;
+        transform: translateY(-40px);
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      h2:hover {
+        top: -100px;
+      }
+
+      a:hover {
+        background: $primary-color;
+        color: set-text-color($primary-color);
+      }
+    }
+  }
+  .boxMessage:before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: $light-color;
+    transform: skew(2deg, 2deg);
+    z-index: -1;
+    background: linear-gradient(315deg, $secondary-color, $primary-color);
+  }
+
+  .boxMessage:hover {
+    a {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+
+.whiteboard {
+  position: relative;
+  border: solid 1.5px white;
+  height: 400px;
+  opacity: 0.5;
+  top: 50%;
+  left: 50%;
+  // transform: translate(-50%, -50%);
+}
+
+.colorRadio {
+  margin: 0 auto;
+  overflow: hidden;
+  padding: 0 2rem;
+  display: flex;
+  flex-wrap: wrap;
+
+  span {
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    background: $dark-color;
+    padding: 8px 10px;
+    margin: 5px;
+    color: $dark-color;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    border-radius: 30px;
+    font-size: 20px;
+    transition: 0.5s;
+    user-select: none;
+    overflow: hidden;
+  }
+
+  span:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  input[type="radio"] {
+    display: none;
+  }
+}
+
+.colorRadio div:nth-child(2) label input[type="radio"]:checked ~ span {
+  background: $primary-color;
+  color: $light-color;
+  box-shadow: 0 0 50px $primary-color;
+}
+.colorRadio div:nth-child(3) label input[type="radio"]:checked ~ span {
+  background: $secondary-color;
+  color: $light-color;
+  box-shadow: 0 0 50px $secondary-color;
+}
+.colorRadio div:nth-child(4) label input[type="radio"]:checked ~ span {
+  background: $light-color;
+  color: $dark-color;
+  box-shadow: 0 0 50px $light-color;
+}
+.colorRadio div:nth-child(5) label input[type="radio"]:checked ~ span {
+  background: black;
+  color: $light-color;
+  box-shadow: 0 0 50px black;
+}
+.colorRadio div:nth-child(6) label input[type="radio"]:checked ~ span {
+  background: $success-color;
+  color: white;
+  box-shadow: 0 0 50px $success-color;
+}
+.colorRadio div:nth-child(7) label input[type="radio"]:checked ~ span {
+  background: $warning-color;
+  color: white;
+  box-shadow: 0 0 50px $warning-color;
+}
+.colorRadio div:nth-child(8) label input[type="radio"]:checked ~ span {
+  background: $danger-color;
+  color: white;
+  box-shadow: 0 0 50px $danger-color;
+}

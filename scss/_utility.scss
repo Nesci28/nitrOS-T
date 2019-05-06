@@ -1,0 +1,230 @@
+// Backgrounds
+.bg {
+  &-primary {
+    @include set-background($primary-color);
+  }
+  &-success {
+    @include set-background($success-color);
+  }
+  &-warning {
+    @include set-background($warning-color);
+  }
+  &-danger {
+    @include set-background($danger-color);
+  }
+  &-dark {
+    @include set-background($dark-color);
+  }
+  &-light {
+    @include set-background($light-color);
+    border: solid 1px #cccccc;
+  }
+}
+
+.dark-overlay {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+// Container
+.container {
+  // width: 75%;
+  max-width: $max-width;
+  margin: auto;
+  overflow: hidden;
+  padding: 0 2rem;
+  margin-top: 6rem;
+  margin-bottom: 3rem;
+}
+
+// Buttons styles
+.btn {
+  display: inline-block;
+  background: $light-color;
+  color: $dark-color;
+  padding: 0.4rem 1.3rem;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-right: 0.5rem;
+  outline: none;
+  transition: all 0.3s ease-in;
+  border-radius: 5px;
+
+  &.btn-primary {
+    @include set-background($primary-color);
+
+    &:hover {
+      background: lighten($primary-color, 25%);
+    }
+  }
+  &.btn-secondary {
+    @include set-background($secondary-color);
+
+    &:hover {
+      background: lighten($secondary-color, 25%);
+    }
+  }
+  &.btn-success {
+    @include set-background($success-color);
+
+    &:hover {
+      background: lighten($success-color, 25%);
+    }
+  }
+  &.btn-warning {
+    @include set-background($warning-color);
+
+    &:hover {
+      background: lighten($warning-color, 25%);
+    }
+  }
+  &.btn-danger {
+    @include set-background($danger-color);
+
+    &:hover {
+      background: lighten($danger-color, 25%);
+    }
+  }
+  &.btn-dark {
+    @include set-background($dark-color);
+
+    &:hover {
+      background: lighten($dark-color, 25%);
+    }
+  }
+
+  &:hover {
+    background: lighten($dark-color, 25%);
+  }
+}
+
+// Alerts
+.alert {
+  padding: 0.08rem;
+  margin: 1rem;
+  opacity: 0.9;
+  background: $light-color;
+  color: $dark-color;
+
+  &.alert-primary {
+    @include set-background($primary-color);
+  }
+  &.alert-success {
+    @include set-background($success-color);
+  }
+  &.alert-warning {
+    @include set-background($warning-color);
+  }
+  &.alert-danger {
+    @include set-background($danger-color);
+  }
+  &.alert-dark {
+    @include set-background($dark-color);
+  }
+}
+
+// Text styles
+.x-large {
+  font-size: 4rem;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.large {
+  font-size: 3rem;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.lead {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+// Loading
+.loadingDots {
+  position: absolute;
+  top: 18%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120px;
+  height: 120px;
+
+  span {
+    position: absolute;
+    display: block;
+    width: 30px;
+    height: 30px;
+    background: $primary-color;
+    border-radius: 50%;
+  }
+
+  span:nth-child(1) {
+    background: $primary-color;
+    box-shadow: 0 0 50px $primary-color;
+    animation: dots 1.5s linear infinite;
+    animation-delay: -0.375s;
+  }
+  span:nth-child(2) {
+    background: $secondary-color;
+    box-shadow: 0 0 50px $secondary-color;
+    animation: dots 1.5s linear infinite;
+    animation-delay: -0.75s;
+  }
+  span:nth-child(3) {
+    background: $success-color;
+    box-shadow: 0 0 50px $success-color;
+    animation: dots 1.5s linear infinite;
+    animation-delay: -1.125s;
+  }
+  span:nth-child(4) {
+    background: $warning-color;
+    box-shadow: 0 0 50px $warning-color;
+    animation: dots 1.5s linear infinite;
+    animation-delay: -1.5s;
+  }
+
+  @keyframes dots {
+    0% {
+      top: 0;
+      left: 0;
+    }
+    5% {
+      top: 0;
+      left: 0;
+    }
+    20% {
+      top: 0;
+      left: 50%;
+    }
+    25% {
+      top: 0;
+      left: 50%;
+    }
+    50% {
+      top: 50%;
+      left: 50%;
+    }
+    55% {
+      top: 50%;
+      left: 50%;
+    }
+    75% {
+      top: 50%;
+      left: 0;
+    }
+    80% {
+      top: 50%;
+      left: 0;
+    }
+    100% {
+      top: 0;
+      left: 0;
+    }
+  }
+}
