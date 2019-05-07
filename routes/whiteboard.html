@@ -43,50 +43,116 @@
         </div>
       </div>
     </nav>
-    <section class="colorRadio">
-      <canvas class="whiteboard" id="canvas" width="400" height="400"></canvas>
-      <div>
-        <label>
-          <input type="radio" name="color" id="" checked />
-          <span>Cyan</span>
-        </label>
+    <section class="container">
+      <canvas class="whiteboard" id="canvas"></canvas>
+      <div class="colorRadio">
+        <label style="font-size:2rem;color: white;">Line:</label>
+        <div>
+          <label>
+            <input type="radio" name="line" id="cyanRadioLine" checked />
+            <span>Cyan</span>
+          </label>
+        </div>
+        <div>
+          <label>
+            <input type="radio" name="line" id="purpleRadioLine" />
+            <span>Purple</span>
+          </label>
+        </div>
+        <div>
+          <label>
+            <input type="radio" name="line" id="lightRadioLine" />
+            <span>Light</span>
+          </label>
+        </div>
+        <div>
+          <label>
+            <input type="radio" name="line" id="darkRadioLine" />
+            <span>Dark</span>
+          </label>
+        </div>
+        <div>
+          <label>
+            <input type="radio" name="line" id="greenRadioLine" />
+            <span>Green</span>
+          </label>
+        </div>
+        <div>
+          <label>
+            <input type="radio" name="line" id="yellowRadioLine" />
+            <span>Yellow</span>
+          </label>
+        </div>
+        <div>
+          <label>
+            <input type="radio" name="line" id="redRadioLine" />
+            <span>Red</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="colorRadio">
+        <label style="font-size:2rem;color: white;">Wall:</label>
+        <div>
+          <label>
+            <input type="radio" name="wall" id="cyanRadioWall" />
+            <span>Cyan</span>
+          </label>
+        </div>
+        <div>
+          <label>
+            <input type="radio" name="wall" id="purpleRadioWall" />
+            <span>Purple</span>
+          </label>
+        </div>
+        <div>
+          <label>
+            <input type="radio" name="wall" id="lightRadioWall" checked />
+            <span>Light</span>
+          </label>
+        </div>
+        <div>
+          <label>
+            <input type="radio" name="wall" id="darkRadioWall" />
+            <span>Dark</span>
+          </label>
+        </div>
+        <div>
+          <label>
+            <input type="radio" name="wall" id="greenRadioWall" />
+            <span>Green</span>
+          </label>
+        </div>
+        <div>
+          <label>
+            <input type="radio" name="wall" id="yellowRadioWall" />
+            <span>Yellow</span>
+          </label>
+        </div>
+        <div>
+          <label>
+            <input type="radio" name="wall" id="redRadioWall" />
+            <span>Red</span>
+          </label>
+        </div>
+      </div>
+      <div class="slidecontainer">
+        <input
+          type="range"
+          min="1"
+          max="100"
+          value="10"
+          class="slider"
+          id="lineWidth"
+        />
+        <label style="color: white;" id="lineWidthLabel"></label>
       </div>
       <div>
-        <label>
-          <input type="radio" name="color" id="" />
-          <span>Purple</span>
-        </label>
+        <button class="btn btn-success" id="save">Save</button>
+        <button class="btn btn-warning" id="reset">Reset</button>
+        <button class="btn btn-danger" id="cancel">Cancel</button>
       </div>
-      <div>
-        <label>
-          <input type="radio" name="color" id="" />
-          <span>Light</span>
-        </label>
-      </div>
-      <div>
-        <label>
-          <input type="radio" name="color" id="" />
-          <span>Dark</span>
-        </label>
-      </div>
-      <div>
-        <label>
-          <input type="radio" name="color" id="" />
-          <span>Green</span>
-        </label>
-      </div>
-      <div>
-        <label>
-          <input type="radio" name="color" id="" />
-          <span>Yellow</span>
-        </label>
-      </div>
-      <div>
-        <label>
-          <input type="radio" name="color" id="" />
-          <span>Red</span>
-        </label>
-      </div>
+      <canvas class="whiteboard" id="blankCanvas" style="display:none"></canvas>
     </section>
   </body>
   <script type="text/javascript" src="../js/whiteboard.js"></script>

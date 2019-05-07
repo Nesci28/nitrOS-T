@@ -1,6 +1,71 @@
 const messageBoxElement = document.querySelector(".messageBox");
 const loadingDotsElement = document.querySelector(".loadingDots");
 const containerMessageElement = document.querySelector(".containerMessage");
+const imageThumbnailElement = document.getElementById("imageThumbnail");
+const videoThumbnailElement = document.getElementById("videoThumbnail");
+const whiteboardThumbnailElement = document.getElementById(
+  "whiteboardThumbnail"
+);
+const imageDeleteElement = document.getElementById("imageDelete");
+const videoDeleteElement = document.getElementById("videoDelete");
+const whiteboardDeleteElement = document.getElementById("whiteboardDelete");
+
+// Event listeners
+// Buttons
+document.getElementById("image").addEventListener("click", saveInfo);
+document.getElementById("video").addEventListener("click", saveInfo);
+document.getElementById("whiteboard").addEventListener("click", saveInfo);
+document.getElementById("submit").addEventListener("click", submit);
+
+// Thumbnails
+imageThumbnailElement.addEventListener("click", showImage);
+videoThumbnailElement.addEventListener("click", showVideo);
+whiteboardThumbnailElement.addEventListener("click", showWhiteboard);
+imageDeleteElement.addEventListener("click", imageDelete);
+videoDeleteElement.addEventListener("click", videoDelete);
+whiteboardDeleteElement.addEventListener("click", whiteboardDelete);
+
+// Load the message
+let message = localStorage.getItem("message");
+if (message) setTextarea(message);
+
+// Load the thumbnails
+imageThumbnailElement.style.display = "none";
+videoThumbnailElement.style.display = "none";
+whiteboardThumbnailElement.style.display = "none";
+imageDeleteElement.style.display = "none";
+videoDeleteElement.style.display = "none";
+whiteboardDeleteElement.style.display = "none";
+getThumbnails();
+
+function getThumbnails() {
+  imageThumbnailElement.style.display = "none";
+  videoThumbnailElement.style.display = "none";
+  whiteboardThumbnailElement.style.display = "none";
+
+  if (localStorage.getItem("image")) {
+    imageThumbnailElement.style.display = "";
+    imageDeleteElement.style.display = "";
+    imageThumbnailElement.src = localStorage
+      .getItem("image")
+      .replace(".png", "s.png");
+  }
+  if (localStorage.getItem("video")) {
+    videoThumbnailElement.style.display = "";
+    videoDeleteElement.style.display = "";
+    imageThumbnailElement.src = localStorage
+      .getItem("video")
+      .replace(".png", "s.png");
+  }
+  if (localStorage.getItem("whiteboard")) {
+    whiteboardThumbnailElement.style.display = "";
+    whiteboardDeleteElement.style.display = "";
+    whiteboardThumbnailElement.src = localStorage
+      .getItem("whiteboard")
+      .replace(".png", "s.png");
+  }
+}
+
 const API_URL =
   window.location.hostname !== "127.0.0.1"
     ? "http://localhost:5000/v2/mews"
@@ -45,4 +110,47 @@ function listAllMessage() {
   messageBoxElement.style.display = "";
   loadingDotsElement.style.display = "none";
   containerMessageElement.style.display = "";
+}
+
+function saveInfo() {
+  let message = document.getElementById("message").value;
+  localStorage.setItem("message", message);
+}
+
+function setTextarea(message) {
+  document.getElementById("message").value = message;
+}
+
+function submit() {
+  clearLocalStorage();
+  setTextarea("");
+}
+
+function clearLocalStorage() {
+  localStorage.setItem("message", "");
+  localStorage.setItem("image", "");
+  localStorage.setItem("video", "");
+  localStorage.setItem("whiteboard", "");
+}
+
+function showImage() {
+  window.open(localStorage.getItem("image"), "_blank");
+}
+function showVideo() {
+  window.open(localStorage.getItem("video"), "_blank");
+}
+function showWhiteboard() {
+  window.open(localStorage.getItem("whiteboard"), "_blank");
+}
+function imageDelete() {
+  localStorage.setItem("image", "");
+  window.location.replace("../routes/message.html");
+}
+function videoDelete() {
+  localStorage.setItem("video", "");
+  window.location.replace("../routes/message.html");
+}
+function whiteboardDelete() {
+  localStorage.setItem("whiteboard", "");
+  window.location.replace("../routes/message.html");
 }

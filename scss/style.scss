@@ -105,6 +105,10 @@ ul {
 }
 
 // Forms
+.formPadding {
+  padding-bottom: 20px;
+}
+
 .messageBox {
   position: relative;
   top: 30%;
@@ -117,6 +121,13 @@ ul {
   box-sizing: border-box;
   box-shadow: 0 15px 25px rgba(0, 0, 0, 1.25);
   border-radius: 10px;
+
+  .sideThumbnails {
+    margin-top: 1rem;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+  }
 
   h2 {
     margin: 0 0 30px;
@@ -136,6 +147,19 @@ ul {
     border-radius: 5px;
   }
 
+  .thumbnail {
+    border: solid 1px $light-color;
+    margin-top: 20px;
+    padding: 10px;
+    height: 102px;
+    width: 102px;
+    cursor: pointer;
+
+    &:hover {
+      border: solid 1px $primary-color;
+    }
+  }
+
   .inputBox {
     position: relative;
 
@@ -147,14 +171,14 @@ ul {
       letter-spacing: 1px;
       margin-bottom: 30px;
       border: none;
-      border-bottom: solid 1px $light-color;
+      border: solid 1px $light-color;
       outline: none;
       background: transparent;
     }
 
     label {
       position: absolute;
-      top: 0;
+      top: 10px;
       left: 0;
       padding: 10px 0;
       font-size: 16px;
@@ -165,7 +189,7 @@ ul {
 
     textarea:hover ~ label,
     textarea:valid ~ label {
-      top: -20px;
+      top: -30px;
       left: 0;
       color: $primary-color;
       font-size: 12px;
@@ -342,21 +366,28 @@ ul {
 }
 
 .whiteboard {
-  position: relative;
-  border: solid 1.5px white;
-  height: 400px;
-  opacity: 0.5;
-  top: 50%;
-  left: 50%;
-  // transform: translate(-50%, -50%);
+  margin: 0 auto;
+  margin-top: 4rem;
+  overflow: hidden;
+  border: 4px $light-color dashed;
+  border-radius: 7px;
 }
 
 .colorRadio {
   margin: 0 auto;
+  margin-top: 4rem;
   overflow: hidden;
   padding: 0 2rem;
   display: flex;
   flex-wrap: wrap;
+
+  &:nth-of-type(3) {
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 0 2rem;
+    display: flex;
+    flex-wrap: wrap;
+  }
 
   span {
     cursor: pointer;
