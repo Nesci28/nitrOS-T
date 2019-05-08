@@ -87,7 +87,7 @@ ul {
 // Landing
 .landing {
   position: relative;
-  background: url("../../public/wallpaper.jpg") no-repeat center center/cover;
+  background: url("../public/wallpaper.jpg") no-repeat center center/cover;
   height: 100vh;
   background-attachment: fixed;
 
@@ -124,9 +124,18 @@ ul {
 
   .sideThumbnails {
     margin-top: 1rem;
-    overflow: hidden;
-    display: flex;
-    flex-wrap: wrap;
+    // overflow: hidden;
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+
+    h3 {
+      font-size: 1rem;
+      color: $primary-color;
+    }
+  }
+
+  .sideThumbnails > div {
+    // background: transparent;
   }
 
   h2 {
@@ -157,7 +166,6 @@ ul {
 
   .thumbnail {
     border: solid 1px $light-color;
-    margin-top: 20px;
     padding: 10px;
     height: 102px;
     width: 102px;
@@ -340,7 +348,7 @@ ul {
       a {
         position: relative;
         margin: 20px 0 0;
-        padding: 10px 20px;
+        padding: 2px 20px;
         text-decoration: none;
         border: 1px solid $light-color;
         display: inline-block;

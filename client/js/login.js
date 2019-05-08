@@ -1,10 +1,11 @@
-// import Axios from "axios";
-
 const alertCredentials = document.querySelector("#alertCredentials");
 const alertUsername = document.querySelector("#alertUsername");
 const alertPassword = document.querySelector("#alertPassword");
 
-const API_URL = "https://nos-server.now.sh/action/login";
+const API_URL =
+  window.location.hostname == "127.0.0.1"
+    ? "http://localhost:5000/login"
+    : "https://nitros.now.sh/login";
 
 alertCredentials.style.display = "none";
 alertUsername.style.display = "none";
@@ -22,25 +23,35 @@ async function show() {
   if (!email || !password) {
     alertCredentials.style.display = "";
   } else {
+    console.log(API_URL);
     fetch(API_URL, {
       method: "POST",
-      body: {
+      body: JSON.stringify({
         username: email,
         password: password
-      },
+      }),
       headers: {
         "content-type": "application/json"
       }
     })
+      .then(res => res.json())
       .then(res => {
-        if (res.data == "wrong username") alertUsername.style.display = "none";
-        else if (res.data == "wrong password")
+        console.log(res);
+        if (res == "Account not found") {
+          alertUsername.style.display = "";
           alertPassword.style.display = "none";
-        else window.location.replace("/message.html");
+          alertCredentials.style.display = "none";
+        } else if (res == "Wrong password!") {
+          alertUsername.style.display = "none";
+          alertPassword.style.display = "";
+          alertCredentials.style.display = "none";
+        } else {
+          window.location.replace("/routes/message.html");
+        }
       })
       .catch(e => {
         console.log(e);
-        window.location.replace("message.html");
+        // window.location.replace("message.html");
       });
     alertCredentials.style.display = "none";
   }

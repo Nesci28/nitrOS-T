@@ -273,6 +273,10 @@
 // Pointer
 .pointer {
   cursor: pointer;
+
+  &:hover {
+    color: $secondary-color;
+  }
 }
 
 // Avatar

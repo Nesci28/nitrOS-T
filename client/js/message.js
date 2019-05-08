@@ -25,6 +25,11 @@ imageDeleteElement.addEventListener("click", imageDelete);
 videoDeleteElement.addEventListener("click", videoDelete);
 whiteboardDeleteElement.addEventListener("click", whiteboardDelete);
 
+// Loading UI
+loadingDotsElement.style.display = "";
+messageBoxElement.style.display = "none";
+containerMessageElement.style.display = "none";
+
 // Load the message
 let message = localStorage.getItem("message");
 if (message) setTextarea(message);
@@ -68,10 +73,6 @@ function getThumbnails() {
 
 const API_URL = "https://meower-api.now.sh/v2/mews";
 
-messageBoxElement.style.display = "none";
-loadingDotsElement.style.display = "";
-containerMessageElement.style.display = "none";
-
 listAllMessage();
 
 function listAllMessage() {
@@ -93,7 +94,7 @@ function listAllMessage() {
         headerSpan.textContent = post.name;
         title.textContent = post.name;
         message.textContent = post.content;
-        link.textContent = "Read More";
+        link.textContent = "See Post";
 
         header.appendChild(headerSpan);
         innerDiv.appendChild(header);
@@ -102,11 +103,12 @@ function listAllMessage() {
         innerDiv.appendChild(link);
         outerDiv.appendChild(innerDiv);
         containerMessageElement.appendChild(outerDiv);
+
+        messageBoxElement.style.display = "";
+        loadingDotsElement.style.display = "none";
+        containerMessageElement.style.display = "";
       });
     });
-  messageBoxElement.style.display = "";
-  loadingDotsElement.style.display = "none";
-  containerMessageElement.style.display = "";
 }
 
 function saveInfo() {
