@@ -23,7 +23,6 @@ function previewFile() {
 
 function saveImage() {
   let source = preview.getAttribute("src").split(",")[1];
-  console.log(source);
   if (!source) {
     alert("No image selected");
     return;
@@ -41,7 +40,6 @@ function saveImage() {
     })
       .then(response => response.json())
       .then(result => {
-        console.log(result);
         if (result.success) {
           let link = result.data.link;
           localStorage.setItem("image", link);

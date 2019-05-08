@@ -177,11 +177,10 @@ function saveCanvas() {
   })
     .then(response => response.json())
     .then(result => {
-      console.log(result);
       if (result.success) {
         let link = result.data.link;
         localStorage.setItem("whiteboard", link);
-        // window.location.replace("../routes/message.html");
+        window.location.replace("../routes/message.html");
       } else {
         alert("Failed to upload the whiteboard image to imgur");
       }

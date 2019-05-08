@@ -274,3 +274,26 @@
 .pointer {
   cursor: pointer;
 }
+
+// Avatar
+.avatarSpace {
+  img:nth-child(1) {
+    margin-top: 100px;
+  }
+}
+
+.avatar {
+  transform: translate(15%, 0%);
+  // vertical-align: middle;
+  @media (max-width: 800px) {
+    width: 225px;
+    height: 225px;
+  }
+  @media (min-width: 800px) {
+    width: 348px;
+    height: 348px;
+  }
+  border-radius: 50%;
+  border: solid 1px white;
+  cursor: pointer;
+}

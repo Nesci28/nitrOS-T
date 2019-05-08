@@ -136,6 +136,14 @@ ul {
     text-align: center;
   }
 
+  h3 {
+    color: $light-color;
+
+    span {
+      color: $primary-color;
+    }
+  }
+
   input[type="submit"] {
     background: transparent;
     border: none;
@@ -199,10 +207,20 @@ ul {
 
 .box {
   position: absolute;
-  top: 50%;
+  @media (max-height: 700px) {
+    top: 40%;
+  }
+  @media (min-height: 700px) {
+    top: 30%;
+  }
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 50%;
+  @media (max-width: 800px) {
+    width: 85%;
+  }
+  @media (min-width: 800px) {
+    width: 50%;
+  }
   padding: 40px;
   background: rgba(0, 0, 0, 0.8);
   box-sizing: border-box;
@@ -210,12 +228,12 @@ ul {
   border-radius: 10px;
 
   h2 {
-    margin: 0 0 30px;
     padding: 0;
     color: $primary-color;
     text-align: center;
-    // text-decoration: underline;
-    border-bottom: 6px solid $primary-color;
+    border-bottom: solid 5px $primary-color;
+    width: 50%;
+    transform: translate(50%, -50%);
   }
 
   input[type="submit"] {
