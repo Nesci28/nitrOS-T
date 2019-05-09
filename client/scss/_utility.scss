@@ -78,6 +78,7 @@
   }
   &.btn-warning {
     @include set-background($warning-color);
+    color: $dark-color;
 
     &:hover {
       background: lighten($warning-color, 25%);

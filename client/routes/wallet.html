@@ -23,10 +23,13 @@
   <body class="landing">
     <nav class="navbar bg-dark">
       <h1>
-        <a href="../index.html">
+        <a href="../../index.html">
           <i class="fa fa-code"></i>
           nitrOS-T
         </a>
+      </h1>
+      <h1 id="balance">
+        <!-- <a  href="wallet.html"></a> -->
       </h1>
       <div class="dropdown">
         <h1>
@@ -47,43 +50,32 @@
       </div>
     </nav>
     <section class="container">
-      <!-- Alerts -->
-      <div id="missingEmail" class="alert alert-danger">
-        Missing an email address
+      <div id="first" class="messageBox">
+        <h2 id="name">name</h2>
+        <div class="grid">
+          <h3>Public key:</h3>
+          <textarea id="publicKey"></textarea>
+          <h3 class="privateKey" id="encoded"></h3>
+          <textarea id="privateKey"></textarea>
+          <h3 id="balanceBox"></h3>
+        </div>
       </div>
-      <div id="invalidEmail" class="alert alert-danger">
-        Email address is invalid
+      <div id="alertRequired" class="alert alert-danger">
+        Password field is required
       </div>
-      <div id="missingUsername" class="alert alert-danger">
-        Missing a username
+      <div id="alertPassword" class="alert alert-danger">
+        Wrong password
       </div>
-      <div id="passwordConfirmation" class="alert alert-danger">
-        Password fiels can't be empty // don't match
-      </div>
-      <div class="box">
-        <h2>Signup</h2>
-        <form>
-          <div class="inputBox">
-            <input id="emailAddress" type="text" name="" required="" />
-            <label>Email address</label>
-          </div>
-          <div class="inputBox">
-            <input id="username" type="text" name="" required="" />
-            <label>Username</label>
-          </div>
-          <div class="inputBox">
-            <input id="password" type="password" name="" required="" />
-            <label>Password</label>
-          </div>
-          <div class="inputBox">
-            <input id="confirmPassword" type="password" name="" required="" />
-            <label>Confirm Password</label>
-          </div>
-          <a class="btn btn-primary" id="submit">Submit</a>
-          <p>Already have an account? <a href="login.html">Login</a></p>
-        </form>
+      <div id="second" class="box">
+        <h2>Confirm password</h2>
+        <div class="inputBox">
+          <input id="confirmPassword" type="password" name="" required="" />
+          <label>Confirm Password</label>
+        </div>
+        <a class="btn btn-primary" id="submit">Submit</a>
+        <a class="btn btn-warning" id="cancel">Cancel</a>
       </div>
     </section>
   </body>
-  <script type="text/javascript" src="../js/signup.js"></script>
+  <script type="text/javascript" src="../js/wallet.js"></script>
 </html>

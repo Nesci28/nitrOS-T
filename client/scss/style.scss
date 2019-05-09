@@ -134,8 +134,17 @@ ul {
     }
   }
 
-  .sideThumbnails > div {
-    // background: transparent;
+  .privateKey:hover {
+    color: $primary-color;
+    cursor: pointer;
+  }
+
+  textarea {
+    background-color: transparent;
+    color: $light-color;
+    display: flex;
+    width: 100%;
+    height: 6rem;
   }
 
   h2 {
@@ -147,6 +156,7 @@ ul {
 
   h3 {
     color: $light-color;
+    overflow-wrap: break-word;
 
     span {
       color: $primary-color;

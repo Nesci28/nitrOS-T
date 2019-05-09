@@ -1,3 +1,5 @@
+const balanceElement = document.getElementById("balance");
+
 // Line color
 document
   .getElementById("cyanRadioLine")
@@ -50,6 +52,47 @@ document.getElementById("save").addEventListener("click", saveCanvas);
 document.getElementById("reset").addEventListener("click", clearCanvas);
 document.getElementById("cancel").addEventListener("click", back);
 
+// Declaring API endpoints
+const API_BALANCE =
+  window.location.hostname == "127.0.0.1" ||
+  window.location.hostname == "localhost"
+    ? "http://localhost:5000/get-balance"
+    : "https://nitros.now.sh/get-balance";
+
+// Geting the wallet balance
+getBalance();
+
+function getBalance() {
+  if (localStorage["balance"]) {
+    const icon = document.createElement("i");
+    icon.setAttribute("class", "fa fa-bitcoin");
+    const text = document.createElement("a");
+    text.textContent = localStorage["balance"];
+    balanceElement.append(icon);
+    balanceElement.append(text);
+  } else {
+    fetch(API_BALANCE, {
+      method: "GET",
+      headers: {
+        "content-type": "application/json"
+      },
+      credentials: "include"
+    })
+      .then(res => res.json())
+      .then(res => {
+        localStorage["balance"] = res;
+        localStorage["balance"] = res;
+        const icon = document.createElement("i");
+        icon.setAttribute("class", "fa fa-bitcoin");
+        const text = document.createElement("a");
+        text.append(icon);
+        text.append(" ");
+        text.append(res);
+        balanceElement.append(text);
+      });
+  }
+}
+
 //  Generating the whiteboard
 let canvas = new fabric.Canvas("canvas");
 let blankCanvas = new fabric.Canvas("blankCanvas");
@@ -63,7 +106,7 @@ function canvasCreator() {
   canvas.setWidth(setCanvasWidth());
   canvas.isDrawingMode = 1;
   canvas.freeDrawingBrush.color = getColorRadioLine();
-  canvas.freeDrawingBrush.width = getLineWidth();
+  canvas.freeDrawingBrush.width = parseInt(getLineWidth());
   canvas.renderAll();
 }
 

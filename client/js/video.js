@@ -3,7 +3,49 @@ const preview = document.getElementById("imagePreview");
 // Save, Reset, Cancel clicks
 document.getElementById("save").addEventListener("click", saveImage);
 document.getElementById("reset").addEventListener("click", clearImage);
+const balanceElement = document.getElementById("balance");
 document.getElementById("cancel").addEventListener("click", back);
+
+// Declaring API endpoints
+const API_BALANCE =
+  window.location.hostname == "127.0.0.1" ||
+  window.location.hostname == "localhost"
+    ? "http://localhost:5000/get-balance"
+    : "https://nitros.now.sh/get-balance";
+
+// Geting the wallet balance
+getBalance();
+
+function getBalance() {
+  if (localStorage["balance"]) {
+    const icon = document.createElement("i");
+    icon.setAttribute("class", "fa fa-bitcoin");
+    const text = document.createElement("a");
+    text.textContent = localStorage["balance"];
+    balanceElement.append(icon);
+    balanceElement.append(text);
+  } else {
+    fetch(API_BALANCE, {
+      method: "GET",
+      headers: {
+        "content-type": "application/json"
+      },
+      credentials: "include"
+    })
+      .then(res => res.json())
+      .then(res => {
+        localStorage["balance"] = res;
+        localStorage["balance"] = res;
+        const icon = document.createElement("i");
+        icon.setAttribute("class", "fa fa-bitcoin");
+        const text = document.createElement("a");
+        text.append(icon);
+        text.append(" ");
+        text.append(res);
+        balanceElement.append(text);
+      });
+  }
+}
 
 function previewFile() {
   var file = document.querySelector("input[type=file]").files[0];

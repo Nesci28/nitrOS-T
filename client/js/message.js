@@ -1,3 +1,4 @@
+const balanceElement = document.getElementById("balance");
 const messageBoxElement = document.querySelector(".messageBox");
 const loadingDotsElement = document.querySelector(".loadingDots");
 const containerMessageElement = document.querySelector(".containerMessage");
@@ -9,6 +10,9 @@ const whiteboardThumbnailElement = document.getElementById(
 const imageDeleteElement = document.getElementById("imageDelete");
 const videoDeleteElement = document.getElementById("videoDelete");
 const whiteboardDeleteElement = document.getElementById("whiteboardDelete");
+const imageTextElement = document.getElementById("imageText");
+const videoTextElement = document.getElementById("videoText");
+const whiteboardTextElement = document.getElementById("whiteboardText");
 
 // Event listeners
 // Buttons
@@ -30,6 +34,26 @@ loadingDotsElement.style.display = "";
 messageBoxElement.style.display = "none";
 containerMessageElement.style.display = "none";
 
+// Declairing the API endpoints
+const API_GET =
+  window.location.hostname == "127.0.0.1" ||
+  window.location.hostname == "localhost"
+    ? "http://localhost:5000/message/1"
+    : "https://nitros.now.sh/message/1";
+const API_POST =
+  window.location.hostname == "127.0.0.1" ||
+  window.location.hostname == "localhost"
+    ? "http://localhost:5000/message"
+    : "https://nitros.now.sh/message";
+const API_BALANCE =
+  window.location.hostname == "127.0.0.1" ||
+  window.location.hostname == "localhost"
+    ? "http://localhost:5000/get-balance"
+    : "https://nitros.now.sh/get-balance";
+
+// Geting the wallet balance
+getBalance();
+
 // Load the message
 let message = localStorage.getItem("message");
 if (message) setTextarea(message);
@@ -41,16 +65,19 @@ whiteboardThumbnailElement.style.display = "none";
 imageDeleteElement.style.display = "none";
 videoDeleteElement.style.display = "none";
 whiteboardDeleteElement.style.display = "none";
+imageDeleteElement.style.display = "none";
+videoDeleteElement.style.display = "none";
+whiteboardDeleteElement.style.display = "none";
+imageTextElement.style.display = "none";
+videoTextElement.style.display = "none";
+whiteboardTextElement.style.display = "none";
 getThumbnails();
 
 function getThumbnails() {
-  imageThumbnailElement.style.display = "none";
-  videoThumbnailElement.style.display = "none";
-  whiteboardThumbnailElement.style.display = "none";
-
   if (localStorage.getItem("image")) {
     imageThumbnailElement.style.display = "";
     imageDeleteElement.style.display = "";
+    imageTextElement.style.display = "";
     imageThumbnailElement.src = localStorage
       .getItem("image")
       .replace(".png", "s.png");
@@ -58,6 +85,7 @@ function getThumbnails() {
   if (localStorage.getItem("video")) {
     videoThumbnailElement.style.display = "";
     videoDeleteElement.style.display = "";
+    videoTextElement.style.display = "";
     imageThumbnailElement.src = localStorage
       .getItem("video")
       .replace(".png", "s.png");
@@ -65,21 +93,48 @@ function getThumbnails() {
   if (localStorage.getItem("whiteboard")) {
     whiteboardThumbnailElement.style.display = "";
     whiteboardDeleteElement.style.display = "";
+    whiteboardTextElement.style.display = "";
     whiteboardThumbnailElement.src = localStorage
       .getItem("whiteboard")
       .replace(".png", "s.png");
   }
 }
 
-const API_URL = "https://meower-api.now.sh/v2/mews";
+function getBalance() {
+  fetch(API_BALANCE, {
+    method: "GET",
+    headers: {
+      "content-type": "application/json"
+    },
+    credentials: "include"
+  })
+    .then(res => res.json())
+    .then(res => {
+      localStorage["balance"] = res;
+      localStorage["balance"] = res;
+      const icon = document.createElement("i");
+      icon.setAttribute("class", "fa fa-bitcoin");
+      const text = document.createElement("a");
+      text.append(icon);
+      text.append(" ");
+      text.append(res);
+      balanceElement.append(text);
+    });
+}
 
 listAllMessage();
 
 function listAllMessage() {
-  fetch(`${API_URL}`)
+  fetch(API_GET, {
+    method: "GET",
+    headers: {
+      "content-type": "application/json"
+    },
+    credentials: "include"
+  })
     .then(res => res.json())
     .then(res => {
-      res.mews.forEach(post => {
+      res.posts.reverse().forEach(post => {
         let outerDiv = document.createElement("div");
         outerDiv.setAttribute("class", "boxMessage");
         let innerDiv = document.createElement("div");
@@ -91,9 +146,9 @@ function listAllMessage() {
         const message = document.createElement("p");
         const link = document.createElement("a");
 
-        headerSpan.textContent = post.name;
-        title.textContent = post.name;
-        message.textContent = post.content;
+        headerSpan.textContent = post.username;
+        title.textContent = post.username;
+        message.textContent = post.message;
         link.textContent = "See Post";
 
         header.appendChild(headerSpan);
@@ -120,7 +175,31 @@ function setTextarea(message) {
   document.getElementById("message").value = message;
 }
 
-function submit() {
+async function submit() {
+  const post = {
+    message: document.getElementById("message").value,
+    image: localStorage.getItem("image"),
+    video: localStorage.getItem("video"),
+    whiteboard: localStorage.getItem("whiteboard")
+  };
+  await fetch(API_POST, {
+    method: "POST",
+    body: JSON.stringify(post),
+    headers: {
+      "content-type": "application/json"
+    },
+    credentials: "include"
+  })
+    .then(res => {
+      containerMessageElement.innerHTML = "";
+      balanceElement.innerHTML = "";
+    })
+    .catch(e => {
+      console.log(e);
+    });
+
+  getBalance();
+  listAllMessage();
   clearLocalStorage();
   setTextarea("");
 }
