@@ -1,10 +1,12 @@
-from flask import Flask, jsonify, request
+from flask import Flask, render_template, url_for, request, session, redirect, jsonify
+from flask_pymongo import PyMongo
 from flask_cors import CORS
-from flask_basicauth import BasicAuth
-import pymongo
-import os
+from functools import wraps
 import bcrypt
-import base64
+import binascii
+import os
+from bson import json_util, ObjectId
+import json
 
 # Load dotenv file
 from dotenv import load_dotenv
@@ -12,88 +14,112 @@ from pathlib import Path
 env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
 
-# Creating the server app
+# Start the flask App
 app = Flask(__name__)
+app.secret_key = os.getenv("APP_SECRET")
 CORS(app)
-basic_auth = BasicAuth(app)
+
+# Setup the DB
+app.config['MONGODBNAME'] = os.getenv("DB_HOST")
+app.config['MONGO_URI'] = os.getenv("DB_URL")
+mongo = PyMongo(app)
 
 
-@app.route('/login', methods=['POST'])
+# Routes protection decorator
+def login_required(fn):
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        if not session.get('username'):
+            return "Please log in first"
+        return fn(*args, **kwargs)
+    return wrapper
+
+
+# Routes
+@app.route('/login', methods=["POST"])
 def login():
-    db = connect_to_db_accounts()
+    if 'username' in session.keys():
+        return 'Already logged in'
     body = request.get_json()
-    print(body)
-    account = db.find_one({"username": body['username']})
-    if account is not None:
-        if password_compare(body['password'], account['password']):
-            if 'privateKey' not in account or 'publicKey' not in account:
-                message = {
-                    "message": "no public and/or private key detected",
-                    "code": 401
-                }
-            else:
-                public_key = account['publicKey']
-                private_key = decode(body['password'], account['privateKey'])
-                balance = account['balance']
-                message = {
-                    "message": {
-                        "public_key": public_key,
-                        "private_key": private_key,
-                        "balance": balance
-                    },
-                    "code": 200
-                }
-        else:
-            message = {
-                "message": "Wrong password!",
-                "code": 401
+    users = mongo.db.blockchain_accounts
+    user = users.find_one({'username': body['username']})
+    if user:
+        if bcrypt.hashpw(body['password'].encode('utf-8'), user['password'].encode('utf-8')) == user['password'].encode('utf-8'):
+            session.permanent = False
+            session['username'] = body['username']
+            return 'logged in'
+    return 'invalid credentials'
+
+
+@app.route('/register', methods=["POST"])
+def register():
+    body = request.get_json()
+    if body['username'] and body['password']:
+        users = mongo.db.blockchain_accounts
+        user = users.find_one({'username': body['username']})
+        if user is None:
+            hashpass = bytes(body['password'], encoding="ascii")
+            hashpass = bcrypt.hashpw(hashpass, bcrypt.gensalt())
+            hashpass = hashpass.decode('ascii')
+            users.insert_one(
+                {'username': body['username'], 'password': hashpass, 'balance': 1000})
+            session['username'] = body['username']
+            return 'Accound created'
+        return 'Username already used'
+
+
+@app.route('/get-balance', methods=["GET"])
+@login_required
+def get_balance():
+    users = mongo.db.blockchain_accounts
+    user = users.find_one({'username': session['username']})
+    if user:
+        balance = user['balance']
+        return str(balance)
+
+
+@app.route('/message/<id>', methods=['GET'])
+@login_required
+def get_message(id):
+    message = mongo.db.message
+    posts = []
+    for el in message.find().limit(20*int(id)):
+        el.pop('_id')
+        posts.append(el)
+    return jsonify(posts)
+
+
+@app.route('/message', methods=['POST'])
+@login_required
+def post_message():
+    cost = 0
+    body = request.get_json()
+    if body['message'] != '':
+        cost += 10
+    if body['image'] != '':
+        cost += 10
+    if body['video'] != '':
+        cost += 20
+    if body['whiteboard'] != '':
+        cost += 15
+    users = mongo.db.blockchain_accounts
+    user = users.find_one({'username': session['username']})
+    balance = user['balance']
+    if balance >= cost:
+        new_balance = balance - cost
+        users.update_one({
+            "username": session['username']
+        }, {
+            '$set': {
+                "balance": new_balance
             }
-    else:
-        message = {
-            "message": "Account not found",
-            "code": 201
-        }
-    if type(message) is dict:
-        app.config['BASIC_AUTH_USERNAME'] = os.getenv("BASIC_AUTH_USERNAME")
-        app.config['BASIC_AUTH_PASSWORD'] = os.getenv("BASIC_AUTH_PASSWORD")
-        return jsonify(message['message']), message['code']
-    else:
-        return message["message"], message['code']
+        })
+        message = mongo.db.message
+        message.insert_one(body)
+        return 'post added'
 
 
-@app.route('/message', methods=['GET'])
-@basic_auth.required
-def message():
-    return 'tets'
-
-
-# Helpers
-def connect_to_db_accounts():
-    DB_USERNAME = os.getenv("DB_USERNAME")
-    DB_PASSWORD = os.getenv("DB_PASSWORD")
-    DB_URL = os.getenv("DB_URL")
-    db = pymongo.MongoClient(
-        "mongodb://{}:{}@{}".format(DB_USERNAME, DB_PASSWORD, DB_URL))
-    db = db['webserver']
-    db = db["blockchain_accounts"]
-    return db
-
-
-def password_compare(account_password, db_password):
-    """Compare plain pass. to encrypted pass. (2 args)\n
-      plain password, encrypted password
-    """
-    if bcrypt.checkpw(account_password.encode(), db_password.encode()):
-        return True
-    else:
-        return False
-
-
-def decode(key, enc):
-    dec = []
-    enc = base64.urlsafe_b64decode(enc).decode()
-    for i in range(len(enc)):
-        key_c = key[i % len(key)]
-        dec_c = chr((256 + ord(enc[i]) - ord(key_c)) % 256)
-        dec.append(dec_c)
-    return "".join(dec)
+# Automatically run the auto reload server by only running the script
+if __name__ == '__main__':
+    app.secret_key = 'mysecret'
+    app.run(debug=True)
