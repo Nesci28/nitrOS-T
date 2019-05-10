@@ -31,6 +31,7 @@ function checkSession() {
     .then(res => {
       console.log(res.message);
       if (res.message == "Already logged in") {
+        localStorage["loggedIn"] = true;
         window.location.replace("/routes/message.html");
       }
     });
@@ -59,6 +60,7 @@ async function show() {
         if (res.message == "invalid credentials") {
           alertCredentials.style.display = "";
         } else {
+          localStorage["loggedIn"] = true;
           window.location.replace("/routes/message.html");
         }
       })

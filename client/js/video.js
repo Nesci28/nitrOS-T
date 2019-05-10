@@ -1,3 +1,9 @@
+// Route protection
+if (!localStorage["loggedIn"]) {
+  window.location.replace("/routes/login.html");
+}
+
+// Element declarations
 const preview = document.getElementById("imagePreview");
 
 // Save, Reset, Cancel clicks

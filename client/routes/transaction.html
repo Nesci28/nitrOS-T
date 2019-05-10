@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Message board for nOS and nitrOS products</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Raleway"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="../css/style.min.css" />
+  </head>
+
+  <body class="landing">
+    <nav class="navbar bg-dark">
+      <h1 class="verticalDivider">
+        <a href="../../index.html">
+          <i class="fa fa-code"></i>
+          nitrOS-T
+        </a>
+      </h1>
+      <div class="dropdown">
+        <h1 class="verticalDivider">
+          <a href="">
+            <i class="fa fa-info-circle"></i>
+            About
+          </a>
+        </h1>
+        <div class="dropdown-content">
+          <a href="aboutMe.html"
+            ><i class="fa fa-user" style="padding-right: 10px;"></i>Me</a
+          >
+          <a href="aboutnitrOS-T.html"
+            ><i class="fa fa-microchip" style="padding-right: 10px;"></i
+            >nitrOS-T</a
+          >
+        </div>
+      </div>
+      <div class="dropdown">
+        <h1 class="verticalDivider">
+          <a id="balance" href="wallet.html"></a>
+        </h1>
+        <div class="dropdown-content">
+          <a href="wallet.html"
+            ><i class="fa fa-id-card" style="padding-right: 10px;"></i>Wallet</a
+          >
+          <a href="transaction.html"
+            ><i class="fa fa-share" style="padding-right: 10px;"></i
+            >Transaction</a
+          >
+          <a href="explorer.html"
+            ><i class="fa fa-link" style="padding-right: 10px;"></i
+            >Blockchain</a
+          >
+        </div>
+      </div>
+      <!-- <h1>
+        <a id="balance" href="wallet.html"></a>
+      </h1> -->
+    </nav>
+    <section class="container">
+      <div id="first" class="messageBox">
+        <div id="alertRequired" class="alert alert-danger">
+          Receiver // Amount fields are required
+        </div>
+        <div id="alertHigher" class="alert alert-danger">
+          Amount must be higher than 0
+        </div>
+        <h2 id="name">Send nitrOS-C</h2>
+        <div class="grid">
+          <h3>Sender:</h3>
+          <textarea disabled id="sender"></textarea>
+          <h3 class="marginTop">Receiver:</h3>
+          <textarea id="receiver"></textarea>
+          <h3 class="marginTop">Amount:</h3>
+          <input
+            id="amount"
+            type="number"
+            step="any"
+            min="0"
+            name=""
+            required=""
+            onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))"
+            class="marginBottom"
+          />
+        </div>
+        <a class="btn btn-primary" id="submit">Submit</a>
+        <a class="btn btn-warning" id="cancel">Cancel</a>
+      </div>
+      <div id="alertPassword" class="alert alert-danger">
+        Wrong password
+      </div>
+      <div id="second" class="box">
+        <h2>Confirm password</h2>
+        <div class="inputBox">
+          <input id="confirmPassword" type="password" name="" required="" />
+          <label>Confirm Password</label>
+        </div>
+        <a class="btn btn-primary" id="secondSubmit">Submit</a>
+        <a class="btn btn-warning" id="secondCancel">Cancel</a>
+      </div>
+    </section>
+  </body>
+  <script type="text/javascript" src="../js/transaction.js"></script>
+</html>

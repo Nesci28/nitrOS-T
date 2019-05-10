@@ -1,3 +1,9 @@
+// Route protection
+if (!localStorage["loggedIn"]) {
+  window.location.replace("/routes/login.html");
+}
+
+// Element declarations
 const balanceElement = document.getElementById("balance");
 
 // Line color

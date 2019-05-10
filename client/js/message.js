@@ -1,3 +1,9 @@
+// Route protection
+if (!localStorage["loggedIn"]) {
+  window.location.replace("/routes/login.html");
+}
+
+// Element declarations
 const balanceElement = document.getElementById("balance");
 const messageBoxElement = document.querySelector(".messageBox");
 const loadingDotsElement = document.querySelector(".loadingDots");

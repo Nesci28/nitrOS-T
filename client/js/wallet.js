@@ -1,3 +1,9 @@
+// Route protection
+if (!localStorage["loggedIn"]) {
+  window.location.replace("/routes/login.html");
+}
+
+// Element declarations
 const firstElement = document.getElementById("first");
 const secondElement = document.getElementById("second");
 const balanceElement = document.getElementById("balance");

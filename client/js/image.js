@@ -6,7 +6,11 @@ document.getElementById("save").addEventListener("click", saveImage);
 document.getElementById("reset").addEventListener("click", clearImage);
 document.getElementById("cancel").addEventListener("click", back);
 
-// Declaring API endpoints
+// Route protection
+if (!localStorage["loggedIn"]) {
+  window.location.replace("/routes/login.html");
+}
+
 const API_BALANCE =
   window.location.hostname == "127.0.0.1" ||
   window.location.hostname == "localhost"

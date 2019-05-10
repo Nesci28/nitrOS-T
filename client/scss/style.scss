@@ -127,6 +127,36 @@ ul {
   box-shadow: 0 15px 25px rgba(0, 0, 0, 1.25);
   border-radius: 10px;
 
+  ul {
+    width: 100%;
+  }
+
+  li {
+    border: solid 1px $light-color;
+    color: $light-color;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 3px;
+    word-wrap: break-word;
+  }
+  li:nth-child(odd) {
+    background-color: $li-dark-color;
+    &:hover {
+      color: $primary-color;
+      background: lighten($li-dark-color, 10%);
+      border: solid 3px $primary-color;
+    }
+  }
+  li:nth-child(even) {
+    background-color: $li-light-color;
+    &:hover {
+      color: $secondary-color;
+      background: lighten($li-light-color, 10%);
+      border: solid 3px $secondary-color;
+    }
+  }
+
   .sideThumbnails {
     margin-top: 1rem;
     // overflow: hidden;

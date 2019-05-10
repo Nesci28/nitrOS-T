@@ -50,45 +50,29 @@
           ><i class="fa fa-link" style="padding-right: 10px;"></i>Blockchain</a
         >
       </h1>
+      <!-- <h1>
+        <a id="balance" href="wallet.html"></a>
+      </h1> -->
     </nav>
     <section class="container">
-      <!-- Alerts -->
-      <div id="missingEmail" class="alert alert-danger">
-        Missing an email address
+      <div class="messageBox">
+        <h2>Blockchain</h2>
+        <ul id="ulBlockchain"></ul>
       </div>
-      <div id="invalidEmail" class="alert alert-danger">
-        Email address is invalid
-      </div>
-      <div id="missingUsername" class="alert alert-danger">
-        Missing a username
-      </div>
-      <div id="passwordConfirmation" class="alert alert-danger">
-        Password fiels can't be empty // don't match
-      </div>
-      <div class="box">
-        <h2>Signup</h2>
-        <form>
-          <div class="inputBox">
-            <input id="emailAddress" type="text" name="" required="" />
-            <label>Email address</label>
-          </div>
-          <div class="inputBox">
-            <input id="username" type="text" name="" required="" />
-            <label>Username</label>
-          </div>
-          <div class="inputBox">
-            <input id="password" type="password" name="" required="" />
-            <label>Password</label>
-          </div>
-          <div class="inputBox">
-            <input id="confirmPassword" type="password" name="" required="" />
-            <label>Confirm Password</label>
-          </div>
-          <a class="btn btn-primary" id="submit">Submit</a>
-          <p>Already have an account? <a href="login.html">Login</a></p>
-        </form>
+      <div id="block" class="messageBox">
+        <h2 id="blockTitle">Block:</h2>
+        <ul>
+          <li id="timestamp">Timestamp:</li>
+          <li id="transactions">Transactions:</li>
+          <li id="difficulty">Difficulty:</li>
+          <li id="hash">Hash:</li>
+          <li id="proof">Proof-of-Work:</li>
+          <li id="lastTimestamp">Last_timestamp:</li>
+          <li id="lastDifficulty">Last_difficulty:</li>
+          <li id="previousHash">Previous_hash:</li>
+        </ul>
       </div>
     </section>
   </body>
-  <script type="text/javascript" src="../js/signup.js"></script>
+  <script type="text/javascript" src="../js/explorer_anonymous.js"></script>
 </html>

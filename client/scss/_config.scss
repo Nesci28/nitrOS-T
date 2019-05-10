@@ -6,6 +6,8 @@ $success-color: #28a745;
 $warning-color: #f2e931;
 $danger-color: #dc3545;
 $max-width: 90vw;
+$li-dark-color: #343a40;
+$li-light-color: #6f7b88;
 
 // Set text color based on the background
 @function set-text-color($color) {

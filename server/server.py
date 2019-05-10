@@ -177,7 +177,6 @@ def post_message():
 @login_required
 def add_tx():
     body = request.get_json()
-    print(body)
     users = mongo.db.blockchain_accounts
     user = users.find_one({'username': body['sender']})
     if user:
@@ -187,6 +186,16 @@ def add_tx():
             return jsonify({"message": "Transaction added"})
         return jsonify({"message": "Invalid credentials"})
     return jsonify({"message": "Wallet does not exist"})
+
+
+@app.route("/explorer", methods=['GET'])
+@cross_origin(supports_credentials=True)
+def explorer():
+    blockchain = mongo.db.blockchain
+    blocks = json_util.dumps(blockchain.find(
+        {"_id": ObjectId("5cc8ec4efb6fc00ed59ea5fd")}))
+    blocks = json_util.loads(blocks)
+    return jsonify(blocks[0]['block'])
 
 
 # Automatically run the auto reload server by only running the script
