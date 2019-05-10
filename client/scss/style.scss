@@ -29,15 +29,20 @@ ul {
 .navbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0.7rem 2rem;
+  // justify-content: space-between;
+  padding: 0.5rem 0rem;
   position: fixed;
   z-index: 1;
   width: 100%;
   top: 0;
   border-bottom: solid 1px $primary-color;
   opacity: 0.9;
-
+  @media (max-width: 450px) {
+    font-size: 10px;
+  }
+  @media (min-width: 450px) {
+    font-size: 16px;
+  }
   ul {
     display: flex;
   }
@@ -152,6 +157,10 @@ ul {
     padding: 0;
     color: $primary-color;
     text-align: center;
+  }
+
+  .marginTop {
+    padding-top: 30px;
   }
 
   h3 {

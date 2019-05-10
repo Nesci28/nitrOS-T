@@ -17,23 +17,19 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-    <script src="../js/dependancies/fabric.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/style.min.css" />
   </head>
 
   <body class="landing">
     <nav class="navbar bg-dark">
-      <h1>
-        <a href="../index.html">
+      <h1 class="verticalDivider">
+        <a href="../../index.html">
           <i class="fa fa-code"></i>
           nitrOS-T
         </a>
       </h1>
-      <h1>
-        <a id="balance" href="wallet.html"></a>
-      </h1>
       <div class="dropdown">
-        <h1>
+        <h1 class="verticalDivider">
           <a href="">
             <i class="fa fa-info-circle"></i>
             About
@@ -49,6 +45,27 @@
           >
         </div>
       </div>
+      <div class="dropdown">
+        <h1 class="verticalDivider">
+          <a id="balance" href="wallet.html"></a>
+        </h1>
+        <div class="dropdown-content">
+          <a href="wallet.html"
+            ><i class="fa fa-id-card" style="padding-right: 10px;"></i>Wallet</a
+          >
+          <a href="transaction.html"
+            ><i class="fa fa-share" style="padding-right: 10px;"></i
+            >Transaction</a
+          >
+          <a href="explorer.html"
+            ><i class="fa fa-link" style="padding-right: 10px;"></i
+            >Blockchain</a
+          >
+        </div>
+      </div>
+      <!-- <h1>
+        <a id="balance" href="wallet.html"></a>
+      </h1> -->
     </nav>
     <section class="container">
       <canvas class="whiteboard" id="canvas"></canvas>

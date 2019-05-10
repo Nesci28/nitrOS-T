@@ -9,20 +9,22 @@ load_dotenv(dotenv_path=env_path)
 
 
 def connect_to_db_accounts():
-  DB_USERNAME = os.getenv("DB_USERNAME")
-  DB_PASSWORD = os.getenv("DB_PASSWORD")
-  DB_URL = os.getenv("DB_URL")
-  db = pymongo.MongoClient("mongodb://{}:{}@{}".format(DB_USERNAME, DB_PASSWORD, DB_URL))
-  db = db['webserver']
-  db = db["blockchain_accounts"]
-  return db
+    DB_USERNAME = os.getenv("DB_USERNAME")
+    DB_PASSWORD = os.getenv("DB_PASSWORD")
+    DB_URL_CONNECT = os.getenv("DB_URL_CONNECT")
+    db = pymongo.MongoClient(
+        "mongodb://{}:{}@{}".format(DB_USERNAME, DB_PASSWORD, DB_URL_CONNECT))
+    db = db['webserver']
+    db = db["blockchain_accounts"]
+    return db
 
 
 def connect_to_db_blockchain():
-  DB_USERNAME = os.getenv("DB_USERNAME")
-  DB_PASSWORD = os.getenv("DB_PASSWORD")
-  DB_URL = os.getenv("DB_URL")
-  db = pymongo.MongoClient("mongodb://{}:{}@{}".format(DB_USERNAME, DB_PASSWORD, DB_URL))
-  db = db['webserver']
-  db = db["blockchain"]
-  return db
+    DB_USERNAME = os.getenv("DB_USERNAME")
+    DB_PASSWORD = os.getenv("DB_PASSWORD")
+    DB_URL_CONNECT = os.getenv("DB_URL_CONNECT")
+    db = pymongo.MongoClient(
+        "mongodb://{}:{}@{}".format(DB_USERNAME, DB_PASSWORD, DB_URL_CONNECT))
+    db = db['webserver']
+    db = db["blockchain"]
+    return db

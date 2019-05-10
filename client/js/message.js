@@ -34,7 +34,7 @@ loadingDotsElement.style.display = "";
 messageBoxElement.style.display = "none";
 containerMessageElement.style.display = "none";
 
-// Declairing the API endpoints
+// Declaring the API endpoints
 const API_GET =
   window.location.hostname == "127.0.0.1" ||
   window.location.hostname == "localhost"

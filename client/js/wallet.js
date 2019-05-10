@@ -16,7 +16,7 @@ alertRequiredElement.style.display = "none";
 alertPasswordElement.style.display = "none";
 firstElement.style.display = "";
 secondElement.style.display = "none";
-encodedElement.textContent = "Encoded private key:";
+encodedElement.textContent = "Encoded private key: (Click to show)";
 
 // Declairing the API endpoints
 const API_WALLET =
@@ -89,7 +89,7 @@ function submitForm() {
         if (res.message != "invalid credentials") {
           firstElement.style.display = "";
           secondElement.style.display = "none";
-          encodedElement.textContent = "Private key";
+          encodedElement.textContent = "Private key:";
           privateKeyElement.textContent = res.message;
         } else {
           alertPasswordElement.style.display = "";

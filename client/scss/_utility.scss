@@ -280,6 +280,16 @@
   }
 }
 
+// Vertical divider
+.verticalDivider {
+  border-right: solid 2px $light-color;
+}
+
+// MarginBottom
+.marginBottom {
+  margin-bottom: 20px;
+}
+
 // Avatar
 .avatarSpace {
   img:nth-child(1) {

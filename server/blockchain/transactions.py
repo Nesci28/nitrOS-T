@@ -11,57 +11,50 @@ import blockchain.wallet as wallet
 class Tx:
     wallet = wallet.Wallet()
 
-    def add_transaction(self, sender, receiver, amount):
+    def add_transaction(self, sender, password, receiver, amount):
         if sender != "MINING":
-            account_password = sender[1]
-            sender = sender[0]
-            db = connect_to_db_accounts()
-            db_password = db.find_one({"username": sender})
-            db_password = db_password['password']
-            if password_compare(account_password, db_password):
-                balance = get_balance(sender)
-                liquidity = balance >= amount
-                if liquidity:
-                    self.remove_liquidity(sender, balance, amount)
-                    keys = get_keys(sender, account_password)
-                    signature = self.wallet.sign_transaction(
-                        keys['public_key'], keys['private_key'], receiver, amount)
-                    transaction = {
-                        "sender": keys['public_key'],
-                        "receiver": receiver,
-                        "signature": signature,
-                        "amount": amount
-                    }
-                    if self.wallet.verify_transaction(transaction):
-                        self.insert_transaction(transaction, None)
-                        if self.confirm_transaction(db, transaction):
-                            message = {
-                                "message": 'Transaction {} confirmed'.format(transaction),
-                                "code": 201
-                            }
-                        else:
-                            message = {
-                                "message": 'Transaction failed',
-                                "code": 400
-                            }
+            account_password = password
+            balance = get_balance(sender)
+            balance = int(balance)
+            amount = int(amount)
+            liquidity = balance >= amount
+            if liquidity:
+                self.remove_liquidity(sender, balance, amount)
+                keys = get_keys(sender, account_password)
+                signature = self.wallet.sign_transaction(
+                    keys['public_key'], keys['private_key'], receiver, amount)
+                transaction = {
+                    "sender": keys['public_key'],
+                    "receiver": receiver,
+                    "signature": signature,
+                    "amount": amount
+                }
+                if self.wallet.verify_transaction(transaction):
+                    # i am here
+                    self.insert_transaction(transaction, None)
+                    if self.confirm_transaction(transaction):
+                        message = {
+                            "message": 'Transaction {} confirmed'.format(transaction),
+                            "code": 201
+                        }
                     else:
                         message = {
-                            "message": 'Bad transaction signature',
+                            "message": 'Transaction failed',
                             "code": 400
                         }
                 else:
                     message = {
-                        "message": 'Not enough credit',
+                        "message": 'Bad transaction signature',
                         "code": 400
                     }
             else:
                 message = {
-                    "message": 'Wrong password',
+                    "message": 'Not enough credit',
                     "code": 400
                 }
-            return message
+        return message
 
-    def confirm_transaction(self, db, transaction):
+    def confirm_transaction(self, transaction):
         db = connect_to_db_blockchain()
         find_tx = db.find_one(
             {

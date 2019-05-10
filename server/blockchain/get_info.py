@@ -18,7 +18,7 @@ def get_keys(account_name, account_password):
     account = db.find_one({"username": account_name})
     if account != '':
         return {
-            "public_key": decode(account_password, account['publicKey']),
+            "public_key": account['publicKey'],
             "private_key": decode(account_password, account['privateKey'])
         }
     else:

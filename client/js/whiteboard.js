@@ -81,7 +81,6 @@ function getBalance() {
       .then(res => res.json())
       .then(res => {
         localStorage["balance"] = res;
-        localStorage["balance"] = res;
         const icon = document.createElement("i");
         icon.setAttribute("class", "fa fa-bitcoin");
         const text = document.createElement("a");

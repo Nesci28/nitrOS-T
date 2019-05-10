@@ -10,6 +10,7 @@ import json
 
 from blockchain.hashing import decode
 from blockchain.wallet import Wallet
+from blockchain.transactions import Tx
 
 
 # Load dotenv file
@@ -61,6 +62,7 @@ def login_post():
 def login_get():
     if 'username' in session.keys():
         return jsonify({"message": 'Already logged in'})
+    return jsonify({"message": 'not logged in'})
 
 
 @app.route('/register', methods=["POST"])
@@ -88,6 +90,13 @@ def get_balance():
         return str(balance)
 
 
+@app.route('/get-username', methods=["GET"])
+@cross_origin(supports_credentials=True)
+@login_required
+def get_username():
+    return jsonify({"message": session['username']})
+
+
 @app.route('/get-wallet', methods=['GET'])
 @cross_origin(supports_credentials=True)
 @login_required
@@ -110,7 +119,6 @@ def decodePK():
     if user:
         if bcrypt.hashpw(body['password'].encode('utf-8'), user['password'].encode('utf-8')) == user['password'].encode('utf-8'):
             private_key = decode(body['password'], user['privateKey'])
-            print(private_key)
             return jsonify({"message": private_key})
         return jsonify({"message": "invalid credentials"})
 
@@ -162,6 +170,23 @@ def post_message():
         return jsonify({"message": 'post added'})
     else:
         return jsonify({"message": 'insufficient funds'})
+
+
+@app.route("/add-tx", methods=['POST'])
+@cross_origin(supports_credentials=True)
+@login_required
+def add_tx():
+    body = request.get_json()
+    print(body)
+    users = mongo.db.blockchain_accounts
+    user = users.find_one({'username': body['sender']})
+    if user:
+        if bcrypt.hashpw(body['password'].encode('utf-8'), user['password'].encode('utf-8')) == user['password'].encode('utf-8'):
+            Tx().add_transaction(body['sender'], body['password'],
+                                 body['receiver'], body['amount'])
+            return jsonify({"message": "Transaction added"})
+        return jsonify({"message": "Invalid credentials"})
+    return jsonify({"message": "Wallet does not exist"})
 
 
 # Automatically run the auto reload server by only running the script

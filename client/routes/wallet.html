@@ -22,17 +22,14 @@
 
   <body class="landing">
     <nav class="navbar bg-dark">
-      <h1>
+      <h1 class="verticalDivider">
         <a href="../../index.html">
           <i class="fa fa-code"></i>
           nitrOS-T
         </a>
       </h1>
-      <h1 id="balance">
-        <!-- <a  href="wallet.html"></a> -->
-      </h1>
       <div class="dropdown">
-        <h1>
+        <h1 class="verticalDivider">
           <a href="">
             <i class="fa fa-info-circle"></i>
             About
@@ -48,6 +45,27 @@
           >
         </div>
       </div>
+      <div class="dropdown">
+        <h1 class="verticalDivider">
+          <a id="balance" href="wallet.html"></a>
+        </h1>
+        <div class="dropdown-content">
+          <a href="wallet.html"
+            ><i class="fa fa-id-card" style="padding-right: 10px;"></i>Wallet</a
+          >
+          <a href="transaction.html"
+            ><i class="fa fa-share" style="padding-right: 10px;"></i
+            >Transaction</a
+          >
+          <a href="explorer.html"
+            ><i class="fa fa-link" style="padding-right: 10px;"></i
+            >Blockchain</a
+          >
+        </div>
+      </div>
+      <!-- <h1>
+        <a id="balance" href="wallet.html"></a>
+      </h1> -->
     </nav>
     <section class="container">
       <div id="first" class="messageBox">
@@ -55,9 +73,9 @@
         <div class="grid">
           <h3>Public key:</h3>
           <textarea id="publicKey"></textarea>
-          <h3 class="privateKey" id="encoded"></h3>
+          <h3 class="marginTop privateKey" id="encoded"></h3>
           <textarea id="privateKey"></textarea>
-          <h3 id="balanceBox"></h3>
+          <h3 class="marginTop" id="balanceBox"></h3>
         </div>
       </div>
       <div id="alertRequired" class="alert alert-danger">
