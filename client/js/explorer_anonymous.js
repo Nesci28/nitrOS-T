@@ -28,7 +28,7 @@ const API_EXPLORER =
   window.location.hostname == "127.0.0.1" ||
   window.location.hostname == "localhost"
     ? "http://localhost:5000/explorer"
-    : "https://nitros.now.sh/explorer";
+    : "https://nitros-t-server.herokuapp.com/explorer";
 
 // Show UI
 showUI("blank");

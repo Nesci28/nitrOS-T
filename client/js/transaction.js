@@ -41,22 +41,22 @@ const API_BALANCE =
   window.location.hostname == "127.0.0.1" ||
   window.location.hostname == "localhost"
     ? "http://localhost:5000/get-balance"
-    : "https://nitros.now.sh/get-balance";
+    : "https://nitros-t-server.herokuapp.com/get-balance";
 const API_GET_USERNAME =
   window.location.hostname == "127.0.0.1" ||
   window.location.hostname == "localhost"
     ? "http://localhost:5000/get-username"
-    : "https://nitros.now.sh/get-username";
+    : "https://nitros-t-server.herokuapp.com/get-username";
 const API_TRANSACTION =
   window.location.hostname == "127.0.0.1" ||
   window.location.hostname == "localhost"
     ? "http://localhost:5000/add-tx"
-    : "https://nitros.now.sh/add-tx";
+    : "https://nitros-t-server.herokuapp.com/add-tx";
 const API_SOCKET =
   window.location.hostname == "127.0.0.1" ||
   window.location.hostname == "localhost"
     ? "http://localhost:5000"
-    : "https://nitros.now.sh";
+    : "https://nitros-t-server.herokuapp.com";
 
 // Connecting to the list of nodes
 const socket = io.connect(API_SOCKET);

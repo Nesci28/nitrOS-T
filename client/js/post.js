@@ -60,22 +60,22 @@ const API_GET_POST =
   window.location.hostname == "127.0.0.1" ||
   window.location.hostname == "localhost"
     ? "http://localhost:5000/get-message/"
-    : "https://nitros.now.sh/get-message/";
+    : "https://nitros-t-server.herokuapp.com/get-message/";
 const API_BALANCE =
   window.location.hostname == "127.0.0.1" ||
   window.location.hostname == "localhost"
     ? "http://localhost:5000/get-balance"
-    : "https://nitros.now.sh/get-balance";
+    : "https://nitros-t-server.herokuapp.com/get-balance";
 const API_REPLY =
   window.location.hostname == "127.0.0.1" ||
   window.location.hostname == "localhost"
     ? "http://localhost:5000/reply"
-    : "https://nitros.now.sh/reply";
+    : "https://nitros-t-server.herokuapp.com/reply";
 const API_SOCKET =
   window.location.hostname == "127.0.0.1" ||
   window.location.hostname == "localhost"
     ? "http://localhost:5000"
-    : "https://nitros.now.sh";
+    : "https://nitros-t-server.herokuapp.com";
 
 // Connecting to the list of nodes
 const socket = io.connect(API_SOCKET);

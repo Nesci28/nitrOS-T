@@ -29,17 +29,17 @@ const API_WALLET =
   window.location.hostname == "127.0.0.1" ||
   window.location.hostname == "localhost"
     ? "http://localhost:5000/get-wallet"
-    : "https://nitros.now.sh/get-wallet";
+    : "https://nitros-t-server.herokuapp.com/get-wallet";
 const API_ENCODED =
   window.location.hostname == "127.0.0.1" ||
   window.location.hostname == "localhost"
     ? "http://localhost:5000/decode"
-    : "https://nitros.now.sh/decode";
+    : "https://nitros-t-server.herokuapp.com/decode";
 const API_SOCKET =
   window.location.hostname == "127.0.0.1" ||
   window.location.hostname == "localhost"
     ? "http://localhost:5000"
-    : "https://nitros.now.sh";
+    : "https://nitros-t-server.herokuapp.com";
 
 // Connecting to the list of nodes
 const socket = io.connect(API_SOCKET);

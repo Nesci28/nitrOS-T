@@ -2,7 +2,7 @@ const API_URL =
   window.location.hostname == "127.0.0.1" ||
   window.location.hostname == "localhost"
     ? "http://localhost:5000/login"
-    : "https://nitros.now.sh/login";
+    : "https://nitros-t-server.herokuapp.com/login";
 
 checkSession();
 

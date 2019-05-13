@@ -313,5 +313,5 @@ def clear_blockchain():
 # Automatically run the auto reload server by only running the script
 if __name__ == '__main__':
     # app.secret_key = 'mysecret'
-    socketio.run(app, debug=True)
-    # app.run(debug=True)
+    # socketio.run(app, debug=True)
+    app.run(debug=True)

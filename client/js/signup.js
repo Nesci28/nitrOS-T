@@ -8,7 +8,7 @@ const API_REGISTER =
   window.location.hostname == "127.0.0.1" ||
   window.location.hostname == "localhost"
     ? "http://localhost:5000/register"
-    : "https://nitros.now.sh/register";
+    : "https://nitros-t-server.herokuapp.com/register";
 
 // Hiding the warnings
 function hideWarnings() {

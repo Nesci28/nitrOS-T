@@ -32,17 +32,17 @@ const API_BALANCE =
   window.location.hostname == "127.0.0.1" ||
   window.location.hostname == "localhost"
     ? "http://localhost:5000/get-balance"
-    : "https://nitros.now.sh/get-balance";
+    : "https://nitros-t-server.herokuapp.com/get-balance";
 const API_MINE =
   window.location.hostname == "127.0.0.1" ||
   window.location.hostname == "localhost"
     ? "http://localhost:5000/mine"
-    : "https://nitros.now.sh/mine";
+    : "https://nitros-t-server.herokuapp.com/mine";
 const API_SOCKET =
   window.location.hostname == "127.0.0.1" ||
   window.location.hostname == "localhost"
     ? "http://localhost:5000"
-    : "https://nitros.now.sh";
+    : "https://nitros-t-server.herokuapp.com";
 
 // Connecting to the list of nodes
 const socket = io.connect(API_SOCKET);
