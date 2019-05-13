@@ -44,13 +44,6 @@ def get_transactions():
 #   return my_tx
 
 
-def get_nodes():
-    db = connect_to_db_blockchain()
-    nodes = db.find_one({"_id": ObjectId("5cc9c967e7179a596b194ca1")})
-    nodes = nodes['nodes']
-    return nodes
-
-
 def get_blockchain():
     db = connect_to_db_blockchain()
     blockchain = db.find_one({"_id": ObjectId("5cc8ec4efb6fc00ed59ea5fd")})

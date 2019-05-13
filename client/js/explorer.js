@@ -1,5 +1,5 @@
 // Route protection
-if (!localStorage["loggedIn"]) {
+if (!sessionStorage["loggedIn"]) {
   window.location.replace("/routes/login.html");
 }
 
@@ -20,7 +20,7 @@ const previousHashElement = document.getElementById("previousHash");
 ulBlockchainElement.onclick = function(event) {
   var target = getEventTarget(event);
   const index = target.innerHTML;
-  console.log(index);
+  console.log("index:", index);
   showBlock(index);
 };
 
@@ -40,6 +40,17 @@ const API_EXPLORER =
   window.location.hostname == "localhost"
     ? "http://localhost:5000/explorer"
     : "https://nitros.now.sh/explorer";
+const API_SOCKET =
+  window.location.hostname == "127.0.0.1" ||
+  window.location.hostname == "localhost"
+    ? "http://localhost:5000"
+    : "https://nitros.now.sh";
+
+// Connecting to the list of nodes
+const socket = io.connect(API_SOCKET);
+socket.on("response", function(msg) {
+  console.log(msg);
+});
 
 // Show UI
 showUI("blank");
@@ -53,11 +64,11 @@ function showUI(event) {
 getBalance();
 
 function getBalance() {
-  if (localStorage["balance"]) {
+  if (sessionStorage["balance"]) {
     const icon = document.createElement("i");
     icon.setAttribute("class", "fa fa-bitcoin");
     const text = document.createElement("a");
-    text.textContent = localStorage["balance"];
+    text.textContent = sessionStorage["balance"];
     balanceElement.append(icon);
     balanceElement.append(text);
   } else {
@@ -70,7 +81,7 @@ function getBalance() {
     })
       .then(res => res.json())
       .then(res => {
-        localStorage["balance"] = res;
+        sessionStorage["balance"] = res;
         const icon = document.createElement("i");
         icon.setAttribute("class", "fa fa-bitcoin");
         const text = document.createElement("a");
@@ -108,8 +119,7 @@ async function getBlockchain() {
 
 function showBlock(index) {
   showUI("notblank");
-  const block = blockchain[index];
-  console.log(block);
+  const block = blockchain[blockchain.length - 1 - index];
   timestampElement.textContent = block.timestamp;
   transactionsElement.textContent = JSON.stringify(block.transactions);
   difficultyElement.textContent = block.difficulty;

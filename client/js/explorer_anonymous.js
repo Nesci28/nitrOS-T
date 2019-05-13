@@ -64,8 +64,7 @@ async function getBlockchain() {
 
 function showBlock(index) {
   showUI("notblank");
-  const block = blockchain[index];
-  console.log(block);
+  const block = blockchain[blockchain.length - 1 - index];
   timestampElement.textContent = block.timestamp;
   transactionsElement.textContent = JSON.stringify(block.transactions);
   difficultyElement.textContent = block.difficulty;

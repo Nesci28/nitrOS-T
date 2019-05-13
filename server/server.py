@@ -1,16 +1,20 @@
 from flask import Flask, render_template, url_for, request, session, redirect, jsonify
 from flask_pymongo import PyMongo
 from flask_cors import CORS, cross_origin
+from flask_socketio import SocketIO, send, emit
 from functools import wraps
 import bcrypt
 import binascii
 import os
 from bson import json_util, ObjectId
 import json
+import time
 
 from blockchain.hashing import decode
 from blockchain.wallet import Wallet
 from blockchain.transactions import Tx
+from blockchain.block import Block
+from blockchain.blockchain import Blockchain
 
 
 # Load dotenv file
@@ -22,12 +26,38 @@ load_dotenv(dotenv_path=env_path)
 # Start the flask App
 app = Flask(__name__)
 app.secret_key = os.getenv("APP_SECRET")
+socketio = SocketIO(app)
 CORS(app, support_credentials=True)
 
 # Setup the DB
 app.config['MONGODBNAME'] = os.getenv("DB_HOST")
 app.config['MONGO_URI'] = os.getenv("DB_URL")
 mongo = PyMongo(app)
+
+# Setup the currently logged In user set (for socketIO)
+connected_nodes = []
+
+
+# SocketIO
+@socketio.on('connect')
+def node_connect(methods=['GET']):
+    global connected_nodes
+    if session['username'] not in connected_nodes:
+        connected_nodes.append(session['username'])
+    emit('response', {
+        'message': 'connected',
+        'node': session['username'],
+        'conncted_nodes': connected_nodes
+    })
+    print('Client connected')
+
+
+@socketio.on('disconnect')
+def node_disconnect(methods=["GET"]):
+    global connected_nodes
+    if session['username'] in connected_nodes:
+        connected_nodes.remove(session['username'])
+    print('Client disconnected')
 
 
 # Routes protection decorator
@@ -36,6 +66,16 @@ def login_required(fn):
     def wrapper(*args, **kwargs):
         if not session.get('username'):
             return "Please login first"
+        return fn(*args, **kwargs)
+    return wrapper
+
+
+def admin_required(fn):
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        print(session.get('username'))
+        if session.get('username') != 'nesci':
+            return "Not admin"
         return fn(*args, **kwargs)
     return wrapper
 
@@ -172,6 +212,54 @@ def post_message():
         return jsonify({"message": 'insufficient funds'})
 
 
+@app.route('/get-message/<id>', methods=['GET'])
+@cross_origin(supports_credentials=True)
+@login_required
+def get_message_id(id):
+    message = mongo.db.message
+    posts = []
+    for el in message.find():
+        post_id = el.pop('_id')
+        posts.append(el)
+    posts = {
+        "posts": posts[int(id)]
+    }
+    return jsonify({"post": posts, "id": str(post_id)})
+
+
+@app.route('/reply', methods=['POST'])
+@cross_origin(supports_credentials=True)
+@login_required
+def reply():
+    cost = 10
+    body = request.get_json()
+    users = mongo.db.blockchain_accounts
+    user = users.find_one({'username': session['username']})
+    balance = user['balance']
+    if balance >= cost:
+        new_balance = balance - cost
+        users.update_one({
+            "username": session['username']
+        }, {
+            '$set': {
+                "balance": new_balance
+            }
+        })
+        message = mongo.db.message
+        message.find_one_and_update({
+            "_id": ObjectId(body['id'])
+        }, {
+            '$push': {
+                'replies': {
+                    "username": session['username'],
+                    "message": body['reply']
+                }
+            }
+        })
+        return jsonify({"message": "reply posted successfully"})
+    return jsonify({"message": "insufficient funds"})
+
+
 @app.route("/add-tx", methods=['POST'])
 @cross_origin(supports_credentials=True)
 @login_required
@@ -198,7 +286,32 @@ def explorer():
     return jsonify(blocks[0]['block'])
 
 
+@app.route("/mine", methods=['GET'])
+@cross_origin(supports_credentials=True)
+@login_required
+@socketio.on('mine')
+def mine():
+    global connected_nodes
+    print('mining')
+    block = Block().mine(session['username'], connected_nodes)
+    block = block.replace("'", '"')
+    block = json.loads(block)
+    emit('found_block', {"message": "Found a block", "block": block})
+    # return jsonify({"message": "Block founded", "block": block})
+
+
+@app.route("/clear", methods=['GET'])
+@cross_origin(supports_credentials=True)
+@admin_required
+def clear_blockchain():
+    Blockchain().hack_transactions()
+    Blockchain().hack_blockchain()
+    Blockchain()
+    return "Deleted the current blockchain and created a Genesis block"
+
+
 # Automatically run the auto reload server by only running the script
 if __name__ == '__main__':
-    app.secret_key = 'mysecret'
-    app.run(debug=True)
+    # app.secret_key = 'mysecret'
+    socketio.run(app, debug=True)
+    # app.run(debug=True)

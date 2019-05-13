@@ -72,18 +72,9 @@ class Blockchain:
         })
         print('Open transactions deleted')
 
-    def hack_nodes(self):
-        self.db.find_one_and_update({
-            "_id": ObjectId("5cc9c967e7179a596b194ca1")
-        }, {
-            '$set': {
-                'nodes': []
-            }
-        })
-        print('nodes deleted')
-
 
 # if __name__ == "__main__":
-#   Blockchain().hack_transactions()
-#   Blockchain().hack_nodes()
-#   Blockchain().hack_blockchain()
+    #   Blockchain().hack_transactions()
+    #   Blockchain().hack_blockchain()
+    # print('test')
+    # Blockchain()

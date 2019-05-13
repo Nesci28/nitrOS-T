@@ -71,48 +71,50 @@
       </h1> -->
     </nav>
     <section class="container">
-      <div id="first" class="messageBox">
-        <div id="alertRequired" class="alert alert-danger">
-          Receiver // Amount fields are required
-        </div>
-        <div id="alertHigher" class="alert alert-danger">
-          Amount must be higher than 0
-        </div>
-        <h2 id="name">Send nitrOS-C</h2>
-        <div class="grid">
-          <h3>Sender:</h3>
-          <textarea disabled id="sender"></textarea>
-          <h3 class="marginTop">Receiver:</h3>
-          <textarea id="receiver"></textarea>
-          <h3 class="marginTop">Amount:</h3>
-          <input
-            id="amount"
-            step="any"
-            min="0"
-            name=""
-            required=""
-            onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))"
-            class="marginBottom"
-            style="background:transparent;height:30px;color:white;"
-          />
-        </div>
-        <a class="btn btn-primary" id="submit">Submit</a>
-        <a class="btn btn-warning" id="cancel">Cancel</a>
+    <!-- Loading Dots -->
+    <div class="loadingDots">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
       </div>
-      <div id="alertPassword" class="alert alert-danger">
-        Wrong password
-      </div>
-      <div id="second" class="box">
-        <h2>Confirm password</h2>
-        <div class="inputBox">
-          <input id="confirmPassword" type="password" name="" required="" />
-          <label>Confirm Password</label>
+      <div class="containerMessage">
+        <div class="boxMessage" style="margin-top:30px;min-height:420px;">
+          <div class="contentMessage">
+            <h3 id="name"></h3>
+            <textarea id="text" disabled></textarea>
+            <div class="sideThumbnails">
+              <div>
+                <h1 id="imageText">Image</h1>
+                <img class="thumbnail" src="" id="imageThumbnail"></img>
+              </div>
+              <div>
+                <h1 id="videoText">Video</h1>
+                <img class="thumbnail" src="" id="videoThumbnail"></img>
+              </div>
+              <div>
+                <h1 id="whiteboardText">Whiteboard</h1>
+                <img class="thumbnail" src="" id="whiteboardThumbnail"></img>
+              </div>
+            </div>
+          </div>
         </div>
-        <a class="btn btn-primary" id="secondSubmit">Submit</a>
-        <a class="btn btn-warning" id="secondCancel">Cancel</a>
+          <div id="repliesDiv" class="repliesDiv">
+
+          </div>
+        <div class="messageBox">
+          <div id="alertEmpty" class="alert alert-danger">
+            Your reply can't be empty
+          </div>
+          <div id="alertCredit" class="alert alert-danger">
+              Not enough credits
+            </div>
+          <textarea id="replyArea"></textarea>
+          <button class="btn btn-primary" id="reply" style="margin-top:20px;">Reply</button>
+        </div>
       </div>
     </section>
   </body>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
-  <script type="text/javascript" src="../js/transaction.js"></script>
+  <script type="text/javascript" src="../js/post.js"></script>
 </html>

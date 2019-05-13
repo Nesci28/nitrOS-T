@@ -16,7 +16,6 @@ function checkSession() {
   })
     .then(res => res.json())
     .then(res => {
-      console.log(res.message);
       if (res.message == "Already logged in") {
         window.location.replace("/routes/message.html");
       }

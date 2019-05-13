@@ -1,5 +1,5 @@
 // Route protection
-if (!localStorage["loggedIn"]) {
+if (!sessionStorage["loggedIn"]) {
   window.location.replace("/routes/login.html");
 }
 
@@ -56,12 +56,23 @@ const API_BALANCE =
   window.location.hostname == "localhost"
     ? "http://localhost:5000/get-balance"
     : "https://nitros.now.sh/get-balance";
+const API_SOCKET =
+  window.location.hostname == "127.0.0.1" ||
+  window.location.hostname == "localhost"
+    ? "http://localhost:5000"
+    : "https://nitros.now.sh";
+
+// Connecting to the list of nodes
+const socket = io.connect(API_SOCKET);
+socket.on("response", function(msg) {
+  console.log(msg);
+});
 
 // Geting the wallet balance
 getBalance();
 
 // Load the message
-let message = localStorage.getItem("message");
+let message = sessionStorage.getItem("message");
 if (message) setTextarea(message);
 
 // Load the thumbnails
@@ -80,27 +91,27 @@ whiteboardTextElement.style.display = "none";
 getThumbnails();
 
 function getThumbnails() {
-  if (localStorage.getItem("image")) {
+  if (sessionStorage.getItem("image")) {
     imageThumbnailElement.style.display = "";
     imageDeleteElement.style.display = "";
     imageTextElement.style.display = "";
-    imageThumbnailElement.src = localStorage
+    imageThumbnailElement.src = sessionStorage
       .getItem("image")
       .replace(".png", "s.png");
   }
-  if (localStorage.getItem("video")) {
+  if (sessionStorage.getItem("video")) {
     videoThumbnailElement.style.display = "";
     videoDeleteElement.style.display = "";
     videoTextElement.style.display = "";
-    imageThumbnailElement.src = localStorage
+    imageThumbnailElement.src = sessionStorage
       .getItem("video")
       .replace(".png", "s.png");
   }
-  if (localStorage.getItem("whiteboard")) {
+  if (sessionStorage.getItem("whiteboard")) {
     whiteboardThumbnailElement.style.display = "";
     whiteboardDeleteElement.style.display = "";
     whiteboardTextElement.style.display = "";
-    whiteboardThumbnailElement.src = localStorage
+    whiteboardThumbnailElement.src = sessionStorage
       .getItem("whiteboard")
       .replace(".png", "s.png");
   }
@@ -116,8 +127,8 @@ function getBalance() {
   })
     .then(res => res.json())
     .then(res => {
-      localStorage["balance"] = res;
-      localStorage["balance"] = res;
+      sessionStorage["balance"] = res;
+      sessionStorage["balance"] = res;
       const icon = document.createElement("i");
       icon.setAttribute("class", "fa fa-bitcoin");
       const text = document.createElement("a");
@@ -140,7 +151,7 @@ function listAllMessage() {
   })
     .then(res => res.json())
     .then(res => {
-      res.posts.reverse().forEach(post => {
+      res.posts.reverse().forEach((post, i) => {
         let outerDiv = document.createElement("div");
         outerDiv.setAttribute("class", "boxMessage");
         let innerDiv = document.createElement("div");
@@ -150,7 +161,11 @@ function listAllMessage() {
 
         const title = document.createElement("h3");
         const message = document.createElement("p");
-        const link = document.createElement("a");
+        let link = document.createElement("a");
+        link.setAttribute(
+          "href",
+          "../routes/post.html?postId=" + (res.posts.length - i - 1)
+        );
 
         headerSpan.textContent = post.username;
         title.textContent = post.username;
@@ -174,7 +189,7 @@ function listAllMessage() {
 
 function saveInfo() {
   let message = document.getElementById("message").value;
-  localStorage.setItem("message", message);
+  sessionStorage.setItem("message", message);
 }
 
 function setTextarea(message) {
@@ -184,9 +199,9 @@ function setTextarea(message) {
 async function submit() {
   const post = {
     message: document.getElementById("message").value,
-    image: localStorage.getItem("image"),
-    video: localStorage.getItem("video"),
-    whiteboard: localStorage.getItem("whiteboard")
+    image: sessionStorage.getItem("image"),
+    video: sessionStorage.getItem("video"),
+    whiteboard: sessionStorage.getItem("whiteboard")
   };
   await fetch(API_POST, {
     method: "POST",
@@ -211,30 +226,30 @@ async function submit() {
 }
 
 function clearLocalStorage() {
-  localStorage.setItem("message", "");
-  localStorage.setItem("image", "");
-  localStorage.setItem("video", "");
-  localStorage.setItem("whiteboard", "");
+  sessionStorage.setItem("message", "");
+  sessionStorage.setItem("image", "");
+  sessionStorage.setItem("video", "");
+  sessionStorage.setItem("whiteboard", "");
 }
 
 function showImage() {
-  window.open(localStorage.getItem("image"), "_blank");
+  window.open(sessionStorage.getItem("image"), "_blank");
 }
 function showVideo() {
-  window.open(localStorage.getItem("video"), "_blank");
+  window.open(sessionStorage.getItem("video"), "_blank");
 }
 function showWhiteboard() {
-  window.open(localStorage.getItem("whiteboard"), "_blank");
+  window.open(sessionStorage.getItem("whiteboard"), "_blank");
 }
 function imageDelete() {
-  localStorage.setItem("image", "");
+  sessionStorage.setItem("image", "");
   window.location.replace("../routes/message.html");
 }
 function videoDelete() {
-  localStorage.setItem("video", "");
+  sessionStorage.setItem("video", "");
   window.location.replace("../routes/message.html");
 }
 function whiteboardDelete() {
-  localStorage.setItem("whiteboard", "");
+  sessionStorage.setItem("whiteboard", "");
   window.location.replace("../routes/message.html");
 }

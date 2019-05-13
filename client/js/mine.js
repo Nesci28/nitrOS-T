@@ -3,14 +3,29 @@ if (!sessionStorage["loggedIn"]) {
   window.location.replace("/routes/login.html");
 }
 
-// Element declarations
-const preview = document.getElementById("imagePreview");
-
-// Save, Reset, Cancel clicks
-document.getElementById("save").addEventListener("click", saveImage);
-document.getElementById("reset").addEventListener("click", clearImage);
 const balanceElement = document.getElementById("balance");
-document.getElementById("cancel").addEventListener("click", back);
+const titleElement = document.getElementById("title");
+const loadingElement = document.querySelector(".loadingDots");
+const viewBlockchainElement = document.getElementById("viewBlockchain");
+
+// Event listeners
+viewBlockchainElement.addEventListener("click", viewBlockchain);
+
+// Show UI
+showUI("mining");
+
+function showUI(event, block) {
+  if (event == "mining") {
+    loadingElement.style.display = "";
+    titleElement.textContent = "Currently Mining";
+  } else if (event == "found") {
+    loadingElement.style.display = "none";
+    titleElement.textContent = `Found a block: ${block.index}`;
+    setTimeout(function() {
+      showUI("mining");
+    }, 5000);
+  }
+}
 
 // Declaring API endpoints
 const API_BALANCE =
@@ -18,6 +33,11 @@ const API_BALANCE =
   window.location.hostname == "localhost"
     ? "http://localhost:5000/get-balance"
     : "https://nitros.now.sh/get-balance";
+const API_MINE =
+  window.location.hostname == "127.0.0.1" ||
+  window.location.hostname == "localhost"
+    ? "http://localhost:5000/mine"
+    : "https://nitros.now.sh/mine";
 const API_SOCKET =
   window.location.hostname == "127.0.0.1" ||
   window.location.hostname == "localhost"
@@ -64,57 +84,22 @@ function getBalance() {
   }
 }
 
-function previewFile() {
-  var file = document.querySelector("input[type=file]").files[0];
-  var reader = new FileReader();
+// Start mining
+startMining();
 
-  reader.onloadend = function() {
-    preview.src = reader.result;
-  };
+function startMining() {
+  socket.emit("mine", function() {});
+}
 
-  if (file) {
-    preview.style.display = "";
-    reader.readAsDataURL(file);
-  } else {
-    preview.src = "";
+socket.on("found_block", function(msg) {
+  console.log(msg);
+  if (msg.message == "Found a block") {
+    showUI("found", msg.block);
+    startMining();
   }
-}
+});
 
-function saveImage() {
-  let source = preview.getAttribute("src").split(",")[1];
-  if (!source) {
-    alert("No image selected");
-    return;
-  } else {
-    let formData = new FormData();
-    formData.append("type", "base64");
-    formData.append("image", source);
-
-    fetch("https://api.imgur.com/3/image", {
-      method: "POST",
-      headers: new Headers({
-        Authorization: "Client-ID 90ef1830bd083ba"
-      }),
-      body: formData
-    })
-      .then(response => response.json())
-      .then(result => {
-        if (result.success) {
-          let link = result.data.link;
-          sessionStorage.setItem("image", link);
-          // window.location.replace("../routes/message.html");
-        } else {
-          alert("Failed to upload the whiteboard image to imgur");
-        }
-      });
-  }
-}
-
-function clearImage() {
-  preview.src = "";
-  preview.style.display = "none";
-}
-
-function back() {
-  window.location.replace("/routes/message.html");
+// Event listeners functions
+function viewBlockchain() {
+  window.location.replace("/routes/explorer.html");
 }

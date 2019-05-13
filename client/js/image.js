@@ -7,7 +7,7 @@ document.getElementById("reset").addEventListener("click", clearImage);
 document.getElementById("cancel").addEventListener("click", back);
 
 // Route protection
-if (!localStorage["loggedIn"]) {
+if (!sessionStorage["loggedIn"]) {
   window.location.replace("/routes/login.html");
 }
 
@@ -16,16 +16,27 @@ const API_BALANCE =
   window.location.hostname == "localhost"
     ? "http://localhost:5000/get-balance"
     : "https://nitros.now.sh/get-balance";
+const API_SOCKET =
+  window.location.hostname == "127.0.0.1" ||
+  window.location.hostname == "localhost"
+    ? "http://localhost:5000"
+    : "https://nitros.now.sh";
+
+// Connecting to the list of nodes
+const socket = io.connect(API_SOCKET);
+socket.on("response", function(msg) {
+  console.log(msg);
+});
 
 // Geting the wallet balance
 getBalance();
 
 function getBalance() {
-  if (localStorage["balance"]) {
+  if (sessionStorage["balance"]) {
     const icon = document.createElement("i");
     icon.setAttribute("class", "fa fa-bitcoin");
     const text = document.createElement("a");
-    text.textContent = localStorage["balance"];
+    text.textContent = sessionStorage["balance"];
     balanceElement.append(icon);
     balanceElement.append(text);
   } else {
@@ -38,7 +49,7 @@ function getBalance() {
     })
       .then(res => res.json())
       .then(res => {
-        localStorage["balance"] = res;
+        sessionStorage["balance"] = res;
         const icon = document.createElement("i");
         icon.setAttribute("class", "fa fa-bitcoin");
         const text = document.createElement("a");
@@ -87,7 +98,7 @@ function saveImage() {
       .then(result => {
         if (result.success) {
           let link = result.data.link;
-          localStorage.setItem("image", link);
+          sessionStorage.setItem("image", link);
           window.location.replace("../routes/message.html");
         } else {
           alert("Failed to upload the whiteboard image to imgur");

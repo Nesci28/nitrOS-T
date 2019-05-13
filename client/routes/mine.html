@@ -71,48 +71,23 @@
       </h1> -->
     </nav>
     <section class="container">
-      <div id="first" class="messageBox">
-        <div id="alertRequired" class="alert alert-danger">
-          Receiver // Amount fields are required
+      <div class="messageBox" style="height:400px;">
+        <h2 class="title" id="title"></h2>
+        <div style="text-align:center;">
+          <button class="btn btn-secondary" id="viewBlockchain">
+            View blockchain
+          </button>
         </div>
-        <div id="alertHigher" class="alert alert-danger">
-          Amount must be higher than 0
+        <!-- Loading Dots -->
+        <div class="loadingDots" style="top:300px;">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
-        <h2 id="name">Send nitrOS-C</h2>
-        <div class="grid">
-          <h3>Sender:</h3>
-          <textarea disabled id="sender"></textarea>
-          <h3 class="marginTop">Receiver:</h3>
-          <textarea id="receiver"></textarea>
-          <h3 class="marginTop">Amount:</h3>
-          <input
-            id="amount"
-            step="any"
-            min="0"
-            name=""
-            required=""
-            onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))"
-            class="marginBottom"
-            style="background:transparent;height:30px;color:white;"
-          />
-        </div>
-        <a class="btn btn-primary" id="submit">Submit</a>
-        <a class="btn btn-warning" id="cancel">Cancel</a>
-      </div>
-      <div id="alertPassword" class="alert alert-danger">
-        Wrong password
-      </div>
-      <div id="second" class="box">
-        <h2>Confirm password</h2>
-        <div class="inputBox">
-          <input id="confirmPassword" type="password" name="" required="" />
-          <label>Confirm Password</label>
-        </div>
-        <a class="btn btn-primary" id="secondSubmit">Submit</a>
-        <a class="btn btn-warning" id="secondCancel">Cancel</a>
       </div>
     </section>
   </body>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
-  <script type="text/javascript" src="../js/transaction.js"></script>
+  <script type="text/javascript" src="../js/mine.js"></script>
 </html>

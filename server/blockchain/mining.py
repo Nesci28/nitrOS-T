@@ -20,12 +20,12 @@ def calculate_difficulty(last_block, timestamp):
             return last_block['last_difficulty'] + 1
         elif time_block > 6 * 60 * 1000:
             if last_block['last_difficulty'] - 1 < 4:
-                return 5
+                return 4
             else:
                 return last_block['last_difficulty'] - 1
         return last_block['last_difficulty']
     else:
-        return 5
+        return 4
 
 
 def clear_open_transactions():

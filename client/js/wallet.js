@@ -1,5 +1,5 @@
 // Route protection
-if (!localStorage["loggedIn"]) {
+if (!sessionStorage["loggedIn"]) {
   window.location.replace("/routes/login.html");
 }
 
@@ -35,6 +35,17 @@ const API_ENCODED =
   window.location.hostname == "localhost"
     ? "http://localhost:5000/decode"
     : "https://nitros.now.sh/decode";
+const API_SOCKET =
+  window.location.hostname == "127.0.0.1" ||
+  window.location.hostname == "localhost"
+    ? "http://localhost:5000"
+    : "https://nitros.now.sh";
+
+// Connecting to the list of nodes
+const socket = io.connect(API_SOCKET);
+socket.on("response", function(msg) {
+  console.log(msg);
+});
 
 // Event listeners
 encodedElement.addEventListener("click", decodePK);
@@ -54,9 +65,7 @@ function getWalletInfo() {
   })
     .then(res => res.json())
     .then(res => {
-      if (!localStorage["balance"]) {
-        localStorage["balance"] = res.balance;
-      }
+      sessionStorage["balance"] = res.balance;
       const icon = document.createElement("i");
       icon.setAttribute("class", "fa fa-bitcoin");
       const text = document.createElement("a");

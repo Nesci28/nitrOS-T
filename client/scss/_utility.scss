@@ -312,3 +312,92 @@
   border: solid 1px white;
   cursor: pointer;
 }
+
+.title {
+  text-align: center;
+  align-content: center;
+  color: $primary-color;
+  font-size: 2rem;
+}
+
+.cursor {
+  display: inline-block;
+  background: #111;
+  margin-left: 1px;
+
+  -webkit-animation: blink 1s linear 0s infinite;
+  -moz-animation: blink 1s linear 0s infinite;
+  -ms-animation: blink 1s linear 0s infinite;
+  -o-animation: blink 1s linear 0s infinite;
+}
+@-webkit-keyframes blink {
+  0% {
+    background: $primary-color;
+  }
+  47% {
+    background: $primary-color;
+  }
+  50% {
+    background: $light-color;
+  }
+  97% {
+    background: $light-color;
+  }
+  100% {
+    background: $primary-color;
+  }
+}
+
+@-moz-keyframes blink {
+  0% {
+    background: $primary-color;
+  }
+  47% {
+    background: $primary-color;
+  }
+  50% {
+    background: $light-color;
+  }
+  97% {
+    background: $light-color;
+  }
+  100% {
+    background: $primary-color;
+  }
+}
+
+@-ms-keyframes blink {
+  0% {
+    background: $primary-color;
+  }
+  47% {
+    background: $primary-color;
+  }
+  50% {
+    background: $light-color;
+  }
+  97% {
+    background: $light-color;
+  }
+  100% {
+    background: $primary-color;
+  }
+}
+
+@-o-keyframes blink {
+  0% {
+    background: $primary-color;
+  }
+  47% {
+    background: $primary-color;
+  }
+  50% {
+    background: $light-color;
+  }
+  97% {
+    background: $light-color;
+  }
+  100% {
+    background: $primary-color;
+  }
+}

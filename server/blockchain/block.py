@@ -4,10 +4,9 @@ import random
 
 import blockchain.transactions as transactions
 import blockchain.blockchain as blockchain
-import blockchain.nodes as nodes
 from blockchain.wallet import Wallet
 from blockchain.mining import proof, calculate_difficulty, clear_open_transactions
-from blockchain.get_info import get_balance, get_transactions, get_last_block, get_nodes
+from blockchain.get_info import get_balance, get_transactions, get_last_block
 from blockchain.db import connect_to_db_accounts
 
 MINING_REWARD = 100
@@ -16,40 +15,37 @@ MINING_REWARD = 100
 class Block():
     tx = transactions.Tx()
     blk = blockchain.Blockchain()
-    node = nodes.Nodes()
 
-    def mine(self, current_wallet):
-        self.node.add_node(current_wallet)
-        while True:
-            last_block = get_last_block()
-            index = last_block['index'] + 1
-            timestamp = int(round(time.time() * 1000))
-            transactions = get_transactions()
-            clear_open_transactions()
-            difficulty = calculate_difficulty(last_block, timestamp)
-            proof = self.proof_of_work(
-                timestamp, transactions, difficulty, current_wallet)
-            block = {
-                "index": index,
-                "timestamp": timestamp,
-                "transactions": transactions,
-                "difficulty": difficulty,
-                "hash": proof['hash'],
-                "proof_of_work": proof['pof'],
-                "last_timestamp": last_block['timestamp'],
-                "last_difficulty": last_block['difficulty'],
-                "previous_hash": last_block['hash']
-            }
-            self.blk.add_block(block)
-            self.transfer_funds(transactions)
-            nodes = get_nodes()
-            mining_transactions = [
-                {"sender": "MINING", "receiver": current_wallet, "amount": MINING_REWARD / 2}]
-            individual_reward = (MINING_REWARD / 2) / len(nodes)
-            for el in nodes:
-                mining_transactions.append(
-                    {"sender": "MINING", "receiver": el, "amount": individual_reward})
-            self.tx.add_mining_transactions(mining_transactions)
+    def mine(self, current_wallet, nodes):
+        last_block = get_last_block()
+        index = last_block['index'] + 1
+        timestamp = int(round(time.time() * 1000))
+        transactions = get_transactions()
+        difficulty = calculate_difficulty(last_block, timestamp)
+        proof = self.proof_of_work(
+            timestamp, transactions, difficulty, current_wallet)
+        block = {
+            "index": index,
+            "timestamp": timestamp,
+            "transactions": transactions,
+            "difficulty": difficulty,
+            "hash": proof['hash'],
+            "proof_of_work": proof['pof'],
+            "last_timestamp": last_block['timestamp'],
+            "last_difficulty": last_block['difficulty'],
+            "previous_hash": last_block['hash']
+        }
+        self.blk.add_block(block)
+        self.transfer_funds(transactions)
+        mining_transactions = [
+            {"sender": "MINING", "receiver": current_wallet, "amount": MINING_REWARD / 2}]
+        individual_reward = (MINING_REWARD / 2) / len(nodes)
+        for el in nodes:
+            mining_transactions.append(
+                {"sender": "MINING", "receiver": el, "amount": individual_reward})
+        clear_open_transactions()
+        self.tx.add_mining_transactions(mining_transactions)
+        return str(block)
 
     def proof_of_work(self, timestamp, transactions, difficulty, current_wallet):
         pof = {"success": False, "proof": -1, "difficulty": difficulty}
@@ -81,7 +77,7 @@ class Block():
 
 
 # print(Block().tx.add_transaction('MINING', 'markgagnon', 100))
-# Block().mine('markgagnon')
+# Block().mine('markgagnon', '')
 # print(get_transactions())
 # clear_open_transactions()
 # print(get_last_block())
