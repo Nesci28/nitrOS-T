@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "name": "nitros-t",
+  "alias": "nitros-t",
+  "builds": [
+    {
+      "src": "**/*.py",
+      "use": "@now/python",
+      "config": { "maxLambdaSize": "30mb" }
+    }
+  ]
+}
